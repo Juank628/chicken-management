@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import delete_icon from "../../img/delete_icon.svg";
 import accept_icon from "../../img/accept_icon.svg";
 
-function FixedCostTable() {
+function ValuesTable() {
   const [isNewRow, setIsNewRow] = useState(false);
-  const [newField, setNewField] = useState({
-    newCostDesc: "",
-    newCostValue: "0",
+  const [newRow, setNewRow] = useState({
+    newDesc: "",
+    newValue: "0",
   });
-  const [fixedCosts, setFixedCosts] = useState([]);
+  const [rowsContent, setRowsContent] = useState([]);
 
-  const addFixedCost = () => {
-    setFixedCosts([
-      ...fixedCosts,
+  const addRowContent = () => {
+    setRowsContent([
+      ...rowsContent,
       {
         id: "temp" + new Date().getTime(), //Temporal ID for new item
-        description: newField.newCostDesc,
-        value: newField.newCostValue,
+        description: newRow.newDesc,
+        value: newRow.newValue,
         edit: false,
       },
     ]);
@@ -24,8 +24,8 @@ function FixedCostTable() {
     clearNewField();
   };
 
-  const updateNewField = (e) => {
-    setNewField((prevState) => ({
+  const updateNewRow = (e) => {
+    setNewRow((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -33,27 +33,31 @@ function FixedCostTable() {
 
   const updateField = (e) => {
     const idToUpdate = e.target.parentElement.parentElement.id;
-    const itemToUpdate = fixedCosts.findIndex((item) => item.id === idToUpdate);
-    let updatedFixedCosts = fixedCosts;
-    updatedFixedCosts[itemToUpdate] = {
-      ...updatedFixedCosts[itemToUpdate],
+    const itemToUpdate = rowsContent.findIndex(
+      (item) => item.id === idToUpdate
+    );
+    let updatedRowsContent = rowsContent;
+    updatedRowsContent[itemToUpdate] = {
+      ...updatedRowsContent[itemToUpdate],
       [e.target.name]: e.target.value,
     };
-    setFixedCosts([...updatedFixedCosts]);
+    setRowsContent([...updatedRowsContent]);
   };
 
   const clearNewField = () =>
-    setNewField({
-      newCostDesc: "",
-      newCostValue: "0",
+    setNewRow({
+      newDesc: "",
+      newValue: "0",
     });
   const insertNewRow = () => setIsNewRow(true);
   const deleteNewRow = () => setIsNewRow(false);
   const deleteRow = (e) => {
-    const idToDelete = e.target.parentElement.parentElement.id
-    const updatedFixedCosts = fixedCosts.filter(element => element.id !== idToDelete)
-    setFixedCosts([...updatedFixedCosts])
-  }
+    const idToDelete = e.target.parentElement.parentElement.id;
+    const updatedRowsContent = rowsContent.filter(
+      (element) => element.id !== idToDelete
+    );
+    setRowsContent([...updatedRowsContent]);
+  };
   const editRow = (e) => {
     changeEditState(e.currentTarget.id, true);
   };
@@ -63,13 +67,15 @@ function FixedCostTable() {
   };
 
   const changeEditState = (id, isEdit) => {
-    let costsToEdit = fixedCosts;
-    const indexToEdit = costsToEdit.findIndex((element) => element.id === id);
-    costsToEdit[indexToEdit] = {
-      ...costsToEdit[indexToEdit],
+    let updatedRowsContent = rowsContent;
+    const indexToEdit = updatedRowsContent.findIndex(
+      (element) => element.id === id
+    );
+    updatedRowsContent[indexToEdit] = {
+      ...updatedRowsContent[indexToEdit],
       edit: isEdit,
     };
-    setFixedCosts([...costsToEdit]);
+    setRowsContent([...updatedRowsContent]);
   };
 
   return (
@@ -82,7 +88,7 @@ function FixedCostTable() {
           </tr>
         </thead>
         <tbody>
-          {fixedCosts.map((item, index) => (
+          {rowsContent.map((item, index) => (
             <tr key={index} onDoubleClick={editRow} id={item.id}>
               {item.edit ? (
                 <React.Fragment>
@@ -132,15 +138,15 @@ function FixedCostTable() {
               <td>
                 <input
                   className="Desc-Width"
-                  name="newCostDesc"
-                  onChange={updateNewField}
+                  name="newDesc"
+                  onChange={updateNewRow}
                 />
               </td>
               <td>
                 <input
                   className="Value-Width"
-                  name="newCostValue"
-                  onChange={updateNewField}
+                  name="newValue"
+                  onChange={updateNewRow}
                 />
               </td>
               <td className="Bg-White">
@@ -148,7 +154,7 @@ function FixedCostTable() {
                   src={accept_icon}
                   alt="accept"
                   className="Icon"
-                  onClick={addFixedCost}
+                  onClick={addRowContent}
                 />
               </td>
               <td className="Bg-White">
@@ -174,4 +180,4 @@ function FixedCostTable() {
   );
 }
 
-export default FixedCostTable;
+export default ValuesTable;

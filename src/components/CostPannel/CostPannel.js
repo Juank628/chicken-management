@@ -1,16 +1,15 @@
 import React from "react";
 import "./CostPannel.css";
-import FixedCostTable from "../FixedCostTable/FixedCostTable";
-import VarCostTable from "../VarCostTable/VarCostTable";
+import ValuesTable from "../ValuesTable/ValuesTable";
 
 function CostPannel() {
   return (
     <div className="Cost-Pannel-Container">
       <div>
-        <FixedCostTable />
+        <ValuesTable />
       </div>
       <div>
-        <VarCostTable />
+  
       </div>
     </div>
   );
