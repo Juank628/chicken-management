@@ -78,6 +78,10 @@ function ValuesTable() {
     setRowsContent([...updatedRowsContent]);
   };
 
+  const calculateTotal = () => {
+    console.log("new totals");
+  };
+
   return (
     <div>
       <table>
