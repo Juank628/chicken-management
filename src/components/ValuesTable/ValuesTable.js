@@ -1,27 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import delete_icon from "../../img/delete_icon.svg";
 import accept_icon from "../../img/accept_icon.svg";
 
-function ValuesTable() {
+function ValuesTable(props) {
+  const { setTotal } = props;
+  const [rowsContent, setRowsContent] = useState([]);
   const [isNewRow, setIsNewRow] = useState(false);
   const [newRow, setNewRow] = useState({
     newDesc: "",
-    newValue: "0",
+    newValue: 0,
   });
-  const [rowsContent, setRowsContent] = useState([]);
 
-  const addRowContent = () => {
+  const addRowContent = async () => {
     setRowsContent([
       ...rowsContent,
       {
         id: "temp" + new Date().getTime(), //Temporal ID for new item
         description: newRow.newDesc,
-        value: newRow.newValue,
+        value: parseFloat(newRow.newValue),
         edit: false,
       },
     ]);
     setIsNewRow(false);
     clearNewField();
+    calculateTotal();
   };
 
   const updateNewRow = (e) => {
@@ -32,16 +34,24 @@ function ValuesTable() {
   };
 
   const updateField = (e) => {
-    const idToUpdate = e.target.parentElement.parentElement.id;
-    const itemToUpdate = rowsContent.findIndex(
-      (item) => item.id === idToUpdate
-    );
-    let updatedRowsContent = rowsContent;
-    updatedRowsContent[itemToUpdate] = {
-      ...updatedRowsContent[itemToUpdate],
-      [e.target.name]: e.target.value,
-    };
-    setRowsContent([...updatedRowsContent]);
+    if (e.target.value !== "") {
+      let fieldValue = 0;
+      if (e.target.type === "number") {
+        fieldValue = parseFloat(e.target.value);
+      } else {
+        fieldValue = e.target.value;
+      }
+      const idToUpdate = e.target.parentElement.parentElement.id;
+      const itemToUpdate = rowsContent.findIndex(
+        (item) => item.id === idToUpdate
+      );
+      let updatedRowsContent = rowsContent;
+      updatedRowsContent[itemToUpdate] = {
+        ...updatedRowsContent[itemToUpdate],
+        [e.target.name]: fieldValue,
+      };
+      setRowsContent([...updatedRowsContent]);
+    }
   };
 
   const clearNewField = () =>
@@ -78,9 +88,16 @@ function ValuesTable() {
     setRowsContent([...updatedRowsContent]);
   };
 
-  const calculateTotal = () => {
-    console.log("new totals");
-  };
+  const calculateTotal = useCallback(() => {
+    if (rowsContent.length) {
+      const total = rowsContent.reduce((acc, row) => acc + row.value, 0);
+      setTotal(total);
+    }
+  }, [rowsContent, setTotal]);
+
+  useEffect(() => {
+    calculateTotal();
+  }, [rowsContent, calculateTotal]);
 
   return (
     <div>
@@ -107,6 +124,7 @@ function ValuesTable() {
                   <td>
                     <input
                       name="value"
+                      type="number"
                       className="Value-Width"
                       onChange={updateField}
                       defaultValue={item.value}

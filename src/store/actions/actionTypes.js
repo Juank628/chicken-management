@@ -1,0 +1,2 @@
+export const SET_FIXED_COST = "SET_FIXED_COST";
+export const SET_VARIABLE_COST = "SET_VARIABLE_COST";
