@@ -1,26 +1,30 @@
 import React from "react";
 import "./CostPannel.css";
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions/actionTypes";
+import * as actionCreators from "../../store/actions/index";
 import ValuesTable from "../ValuesTable/ValuesTable";
 
 function CostPannel(props) {
-  const updateFixedCost = (total) => {
-    props.setFixedCost({ total });
-  };
-
-  const updateVariableCost = (total) => {
-    props.setVariableCost({ total });
-  };
-
   return (
     <div className="Cost-Pannel-Container">
-      <div>
-        <ValuesTable setTotal={updateFixedCost} />
+      <div className="margin-x-auto box">
+        <ValuesTable
+          title="Costo fijo"
+          descColText="Descripcion"
+          valueColText="Costo"
+          setTotal={(total) => props.onSetFixedCost({ total })}
+        />
       </div>
-      <div>
-        <ValuesTable setTotal={updateVariableCost} />
+      <div className="margin-x-auto box">
+        <ValuesTable
+          title="Costo variable"
+          descColText="Descripcion"
+          valueColText="Costo"
+          setTotal={(total) => props.onSetVariableCost({ total })}
+        />
       </div>
+      <div className="box">zone 3</div>
+      <div className="box">zone 4</div>
     </div>
   );
 }
@@ -34,10 +38,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setFixedCost: (payload) =>
-      dispatch({ type: actionTypes.SET_FIXED_COST, payload }),
-    setVariableCost: (payload) =>
-      dispatch({ type: actionTypes.SET_VARIABLE_COST, payload }),
+    onSetFixedCost: (payload) => dispatch(actionCreators.setFixedCost(payload)),
+    onSetVariableCost: (payload) =>
+      dispatch(actionCreators.setVariableCost(payload)),
   };
 };
 

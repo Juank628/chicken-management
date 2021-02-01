@@ -1,14 +1,16 @@
 .Cost-Pannel-Container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
 }
 
-.Desc-Width {
-  width: 30ch;
+.box {
+  min-height: 50vh;
 }
 
-.Value-Width {
-  width: 7ch;
+.margin-x-auto {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .Bg-White {
@@ -18,26 +20,4 @@
 .Icon {
   width: 18px;
   height: 18px;
-}
-
-tr button {
-  width: 100%;
-}
-
-input {
-  text-align: center;
-}
-
-table {
-  border-collapse: collapse;
-}
-
-thead,
-tfoot {
-  background-color: #333;
-  color: #fff;
-}
-
-table tr:nth-child(even) {
-  background-color: #bebebebe;
 }

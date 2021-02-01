@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import "./ValuesTable.css";
 import delete_icon from "../../img/delete_icon.svg";
 import accept_icon from "../../img/accept_icon.svg";
 
@@ -103,9 +104,12 @@ function ValuesTable(props) {
     <div>
       <table>
         <thead>
-          <tr>
-            <th className="Desc-Width">Descripcion</th>
-            <th className="Value-Width">Costo</th>
+          <tr className="table-title">
+            <th colSpan="2">{props.title}</th>
+          </tr>
+          <tr className="table-header">
+            <th className="Desc-Width">{props.descColText}</th>
+            <th className="Value-Width">{props.valueColText}</th>
           </tr>
         </thead>
         <tbody>

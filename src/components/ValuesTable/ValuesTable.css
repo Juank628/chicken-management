@@ -1,0 +1,33 @@
+tr button {
+  width: 100%;
+}
+
+input {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.table-title th {
+  background-color: white;
+  color: black;
+}
+
+.table-header th {
+  background-color: #333;
+  color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #bebebebe;
+}
+
+.Desc-Width {
+  width: 40ch;
+}
+
+.Value-Width {
+  width: 7ch;
+}

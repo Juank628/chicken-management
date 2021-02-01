@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  variableCost: 7.8,
+  variableCost: 0,
 };
 
 const variableCostReducer = (state = initialState, action) => {
