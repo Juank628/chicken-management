@@ -7,17 +7,3 @@
 .box {
   min-height: 50vh;
 }
-
-.margin-x-auto {
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.Bg-White {
-  background-color: white;
-}
-
-.Icon {
-  width: 18px;
-  height: 18px;
-}

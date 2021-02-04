@@ -1,0 +1,36 @@
+.navbar-container {
+  display: grid;
+  grid-template-columns:min-content max-content;
+  justify-content: space-between;
+  background-color: var(--primary-color-dark);
+}
+
+.navbar-list-container {
+    display: grid;
+    align-content: center;
+}
+
+ul {
+  list-style-type: none;
+  padding-inline-start: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ul li {
+  text-align: center;
+  display: inline;
+  margin-right: 2ch;
+  margin-left: 2ch;
+}
+
+ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-logo {
+  width: 30px;
+  height: 30px;
+  margin: 6px;
+}

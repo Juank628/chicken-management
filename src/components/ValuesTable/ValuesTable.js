@@ -12,7 +12,7 @@ function ValuesTable(props) {
     newValue: 0,
   });
 
-  const addRowContent = async () => {
+  const addRowContent = () => {
     setRowsContent([
       ...rowsContent,
       {
@@ -108,8 +108,8 @@ function ValuesTable(props) {
             <th colSpan="2">{props.title}</th>
           </tr>
           <tr className="table-header">
-            <th className="Desc-Width">{props.descColText}</th>
-            <th className="Value-Width">{props.valueColText}</th>
+            <th className="desc-width">{props.descColText}</th>
+            <th className="value-width">{props.valueColText}</th>
           </tr>
         </thead>
         <tbody>
@@ -120,7 +120,7 @@ function ValuesTable(props) {
                   <td>
                     <input
                       name="description"
-                      className="Desc-Width"
+                      className="desc-width"
                       onChange={updateField}
                       defaultValue={item.description}
                     />
@@ -129,7 +129,7 @@ function ValuesTable(props) {
                     <input
                       name="value"
                       type="number"
-                      className="Value-Width"
+                      className="value-width"
                       onChange={updateField}
                       defaultValue={item.value}
                     />
@@ -163,14 +163,14 @@ function ValuesTable(props) {
             <tr>
               <td>
                 <input
-                  className="Desc-Width"
+                  className="desc-width"
                   name="newDesc"
                   onChange={updateNewRow}
                 />
               </td>
               <td>
                 <input
-                  className="Value-Width"
+                  className="value-width"
                   name="newValue"
                   onChange={updateNewRow}
                 />

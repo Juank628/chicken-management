@@ -23,8 +23,17 @@ function CostPannel(props) {
           setTotal={(total) => props.onSetVariableCost({ total })}
         />
       </div>
-      <div className="box">zone 3</div>
-      <div className="box">zone 4</div>
+      <div className="margin-x-auto box">
+        <ValuesTable
+          title="Precios"
+          descColText="Presentacion"
+          valueColText="Precio"
+          setTotal={() => {
+            return;
+          }}
+        />
+      </div>
+      <div className="margin-x-auto box">zone 4</div>
     </div>
   );
 }
