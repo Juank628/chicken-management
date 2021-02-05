@@ -8,6 +8,10 @@ input {
   text-align: center;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .margin-x-auto {
   margin-right: auto;
   margin-left: auto;
@@ -15,6 +19,10 @@ input {
 
 .Bg-White {
   background-color: white;
+}
+
+.display-none {
+  display: none;
 }
 
 .Icon {

@@ -1,0 +1,20 @@
+{
+  "navLinksInfo": [
+    {
+      "text": "link 1",
+      "ref": "#"
+    },
+    {
+      "text": "link 2",
+      "ref": "#"
+    },
+    {
+      "text": "link 3",
+      "ref": "#"
+    },
+    {
+      "text": "link 4",
+      "ref": "#"
+    }
+  ]
+}
