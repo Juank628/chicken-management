@@ -2,6 +2,12 @@
   --primary-color: #1e88e5;
   --primary-color-light: #6ab7ff;
   --primary-color-dark: #005cb2;
+  --success: #28a745;
+  --danger: #dc3545;
+  --info: #007bff;
+  --on-success: #fff;
+  --on-danger: #fff;
+  --on-info: #fff;
 }
 
 input {
@@ -47,7 +53,7 @@ table {
   color: #fff;
 }
 
-table tr:nth-child(even) {
+tr:nth-child(even) td {
   background-color: var(--primary-color-light);
 }
 

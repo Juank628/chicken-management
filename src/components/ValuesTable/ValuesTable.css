@@ -1,11 +1,11 @@
-tr button {
+.ValuesTable tr button {
   width: 100%;
 }
 
-.desc-width {
+.ValuesTable .desc-width {
   width: 40ch;
 }
 
-.value-width {
+.ValuesTable .value-width {
   width: 7ch;
 }

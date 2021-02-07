@@ -101,7 +101,7 @@ function ValuesTable(props) {
   }, [rowsContent, calculateTotal]);
 
   return (
-    <div>
+    <div className="ValuesTable">
       <table>
         <thead>
           <tr className="table-title">

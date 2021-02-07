@@ -1,0 +1,92 @@
+.CostDetail form {
+  display: grid;
+  grid-template-areas:
+    "id close"
+    "desc desc"
+    "unit cost"
+    "btn-area btn-area";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.5fr 1fr 1fr 2fr;
+  grid-gap: 20px;
+}
+
+.CostDetail .close-btn {
+  grid-area: close;
+  text-align: right;
+}
+
+.CostDetail .id-field {
+  grid-area: id;
+}
+
+.CostDetail .id-field h2 {
+  margin-top: 0;
+  font-size: 1em;
+}
+
+.CostDetail .desc-field {
+  grid-area: desc;
+}
+
+.CostDetail .unit-field {
+  grid-area: unit;
+}
+
+.CostDetail .cost-field {
+  grid-area: cost;
+}
+
+.CostDetail .btn-area {
+  grid-area: btn-area;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.CostDetail .edit-btn {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  background-color: var(--info);
+  border-color: var(--info);
+  color: var(--on-info);
+}
+
+.CostDetail .save-btn {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--on-success);
+}
+
+.CostDetail .cancel-btn {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: var(--on-danger);
+}
+
+.CostDetail input,
+select {
+  width: 100%;
+  padding: 5px;
+  margin-top: 10px;
+  line-height: 1.5;
+  border-radius: 15px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+}
+
+.CostDetail input,
+select:focus {
+  outline: none;
+}
+
+.CostDetail label {
+  margin-bottom: 5px;
+}
+
+.CostDetail button {
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-top: 80px;
+}

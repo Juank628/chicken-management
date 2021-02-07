@@ -1,0 +1,25 @@
+.CostTable table {
+  margin: auto;
+  margin-top: 10px;
+}
+
+.CostTable th, td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.CostTable .id {
+  width: 10vw;
+}
+
+.CostTable .desc {
+  width: 60vw;
+}
+
+.CostTable .unit {
+  width: 10vw;
+}
+
+.CostTable .cost {
+  width: 10vw;
+}

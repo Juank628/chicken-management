@@ -1,8 +1,8 @@
 {
   "navLinksInfo": [
     {
-      "text": "link 1",
-      "ref": "#"
+      "text": "costs",
+      "ref": "/cost"
     },
     {
       "text": "link 2",
