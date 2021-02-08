@@ -1,49 +1,53 @@
-.CostDetail form {
+.VariableCostDetail form {
   display: grid;
   grid-template-areas:
-    "id close"
-    "desc desc"
-    "unit cost"
-    "btn-area btn-area";
+    "id id close"
+    "desc desc desc"
+    "type unit cost"
+    "btn-area btn-area btn-area";
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 0.5fr 1fr 1fr 2fr;
   grid-gap: 20px;
 }
 
-.CostDetail .close-btn {
+.VariableCostDetail .close-btn {
   grid-area: close;
   text-align: right;
 }
 
-.CostDetail .id-field {
+.VariableCostDetail .id-field {
   grid-area: id;
 }
 
-.CostDetail .id-field h2 {
+.VariableCostDetail .id-field h2 {
   margin-top: 0;
   font-size: 1em;
 }
 
-.CostDetail .desc-field {
+.VariableCostDetail .desc-field {
   grid-area: desc;
 }
 
-.CostDetail .unit-field {
+.VariableCostDetail .type-field {
+  grid-area: type;
+}
+
+.VariableCostDetail .unit-field {
   grid-area: unit;
 }
 
-.CostDetail .cost-field {
+.VariableCostDetail .cost-field {
   grid-area: cost;
 }
 
-.CostDetail .btn-area {
+.VariableCostDetail .btn-area {
   grid-area: btn-area;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
 }
 
-.CostDetail .edit-btn {
+.VariableCostDetail .edit-btn {
   grid-column-start: 1;
   grid-column-end: 3;
   background-color: var(--info);
@@ -51,42 +55,28 @@
   color: var(--on-info);
 }
 
-.CostDetail .save-btn {
+.VariableCostDetail .save-btn {
   background-color: var(--success);
   border-color: var(--success);
   color: var(--on-success);
 }
 
-.CostDetail .cancel-btn {
+.VariableCostDetail .cancel-btn {
   background-color: var(--danger);
   border-color: var(--danger);
   color: var(--on-danger);
 }
 
-.CostDetail input,
+.VariableCostDetail input,
 select {
   width: 100%;
-  padding: 5px;
   margin-top: 10px;
-  line-height: 1.5;
-  border-radius: 15px;
-  border: 1px solid #ced4da;
-  background-color: #fff;
 }
 
-.CostDetail input,
-select:focus {
-  outline: none;
-}
-
-.CostDetail label {
+.VariableCostDetail label {
   margin-bottom: 5px;
 }
 
-.CostDetail button {
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  line-height: 1.5;
+.VariableCostDetail button {
   margin-top: 80px;
 }

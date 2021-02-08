@@ -1,0 +1,35 @@
+{
+  "types": ["peso", "volumen"],
+  "units": [
+    {
+      "type": "peso",
+      "symbol": "mg",
+      "factor": 0.001
+    },
+    {
+      "type": "peso",
+      "symbol": "g",
+      "factor": 1
+    },
+    {
+      "type": "peso",
+      "symbol": "Kg",
+      "factor": 1000
+    },
+    {
+      "type": "volumen",
+      "symbol": "ml",
+      "factor": 0.001
+    },
+    {
+      "type": "volumen",
+      "symbol": "l",
+      "factor": 1
+    },
+    {
+      "type": "volumen",
+      "symbol": "gl",
+      "factor": 3.78541
+    }
+  ]
+}

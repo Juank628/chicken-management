@@ -5,38 +5,46 @@
   --success: #28a745;
   --danger: #dc3545;
   --info: #007bff;
+  --disabled: #e9ecef;
   --on-success: #fff;
   --on-danger: #fff;
   --on-info: #fff;
+  --on-disabled: #495057;
 }
 
-input {
+/*******forms*******/
+
+input,
+select {
+  padding: 5px;
   text-align: center;
+  line-height: 1.5;
+  border-radius: 15px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  opacity: 1;
 }
 
-ul {
-  list-style-type: none;
+input:disabled,
+select:disabled {
+  background-color: var(--disabled);
+  color: var(--on-disabled);
 }
 
-.margin-x-auto {
-  margin-right: auto;
-  margin-left: auto;
+input:focus,
+select:focus,
+button:focus {
+  outline: none;
 }
 
-.Bg-White {
-  background-color: white;
+button {
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-.display-none {
-  display: none;
-}
-
-.Icon {
-  width: 18px;
-  height: 18px;
-}
-
-/*Standard table*/
+/****standard table*****/
 
 table {
   border-collapse: collapse;
@@ -57,4 +65,22 @@ tr:nth-child(even) td {
   background-color: var(--primary-color-light);
 }
 
-/*******************************/
+/******others******/
+
+ul {
+  list-style-type: none;
+}
+
+.margin-x-auto {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.display-none {
+  display: none;
+}
+
+.Icon {
+  width: 18px;
+  height: 18px;
+}
