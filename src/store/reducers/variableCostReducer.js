@@ -1,7 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  productID: 0,
   costs: [
     {
       id: "11",
@@ -18,7 +17,6 @@ const initialState = {
       cost: 1.3,
     },
   ],
-  variableCost: 0,
 };
 
 const variableCostReducer = (state = initialState, action) => {
@@ -26,7 +24,7 @@ const variableCostReducer = (state = initialState, action) => {
     case actionTypes.SET_VARIABLE_COST:
       return {
         ...state,
-        variableCost: action.payload.total,
+        costs: action.payload,
       };
     default:
       return state;

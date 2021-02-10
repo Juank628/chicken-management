@@ -14,6 +14,10 @@
 
 /*******forms*******/
 
+select {
+  text-align-last: center;
+}
+
 input,
 select {
   padding: 5px;
@@ -78,9 +82,4 @@ ul {
 
 .display-none {
   display: none;
-}
-
-.Icon {
-  width: 18px;
-  height: 18px;
 }

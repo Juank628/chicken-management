@@ -1,6 +1,11 @@
+.VariableCostTable {
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
 .VariableCostTable table {
   margin: auto;
-  margin-top: 10px;
+  width: 100%;
 }
 
 .VariableCostTable th, td {
@@ -9,17 +14,17 @@
 }
 
 .VariableCostTable .id {
-  width: 10vw;
+  width: 10%;
 }
 
 .VariableCostTable .desc {
-  width: 60vw;
+  width: 70%;
 }
 
 .VariableCostTable .unit {
-  width: 10vw;
+  width: 10%;
 }
 
 .VariableCostTable .cost {
-  width: 10vw;
+  width: 10%;
 }

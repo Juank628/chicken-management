@@ -1,0 +1,18 @@
+.TableTools {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.TableTools .icons-container {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+.TableTools .add-icon {
+    height: 25px;
+    width: 25px;
+}

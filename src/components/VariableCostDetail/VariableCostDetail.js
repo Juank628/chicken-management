@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { connect } from "react-redux";
+import * as actionCreators from "../../store/actions";
 import "./VariableCostDetail.css";
 import close_icon from "../../img/close_icon.svg";
 import { types, units } from "../../config/units.json";
@@ -8,7 +10,7 @@ function VariableCostDetail(props) {
   const [availableUnits, setAvailableUnits] = useState([]);
   const [detail, setDetail] = useState({
     id: "0",
-    description: "ingrese...",
+    description: "",
     unitType: "seleccione...",
     unitSymbol: "seleccione...",
     cost: 0,
@@ -22,25 +24,56 @@ function VariableCostDetail(props) {
   }, [detail.unitType]);
 
   const changeHandler = (e) => {
-    setDetail({
-      ...detail,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "unitType") {
+      setDetail({
+        ...detail,
+        unitType: e.target.value,
+        unitSymbol: "0",
+      });
+    } else {
+      setDetail({
+        ...detail,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
+  const create = () => {
+    const newCosts = props.costs;
+    newCosts.push(detail);
+    console.log(newCosts);
+  };
+
+  const update = () => {
+    const newCosts = props.costs;
+    const indexToUpdate = newCosts.findIndex((item) => item.id === detail.id);
+    newCosts[indexToUpdate] = detail;
+    props.onSetVariableCost(newCosts);
+    props.closeModal();
   };
 
   useEffect(() => {
-    setDetail({ ...props.data });
+    if (props.data) {
+      setDetail({ ...props.data });
+    } else {
+      setIsEdit(true);
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     getAvailableUnits();
-  }, [detail, getAvailableUnits]);
+  }, [detail.unitType, getAvailableUnits]);
 
   return (
     <div className="VariableCostDetail">
       <form>
-        <div className="close-btn" onClick={props.closeModal}>
-          <img alt="close" src={close_icon} className="Icon" />
+        <div className="close-btn">
+          <img
+            alt="close"
+            src={close_icon}
+            className="close-icon"
+            onClick={props.closeModal}
+          />
         </div>
         <div className="id-field">
           <h2>Id: {detail.id}</h2>
@@ -54,6 +87,7 @@ function VariableCostDetail(props) {
             value={detail.description}
             onChange={changeHandler}
             disabled={!isEdit}
+            placeholder="Ingrese la descripcion..."
           />
         </div>
         <div className="type-field">
@@ -66,8 +100,8 @@ function VariableCostDetail(props) {
             disabled={!isEdit}
           >
             <option value="0">seleccione...</option>
-            {types.map((type, item) => (
-              <option key={item} value={type}>
+            {types.map((type, index) => (
+              <option key={index} value={type}>
                 {type}
               </option>
             ))}
@@ -83,8 +117,8 @@ function VariableCostDetail(props) {
             disabled={!isEdit}
           >
             <option value="0">seleccione...</option>
-            {availableUnits.map((unit, item) => (
-              <option key={item} value={unit.symbol}>
+            {availableUnits.map((unit, index) => (
+              <option key={index} value={unit.symbol}>
                 {unit.symbol}
               </option>
             ))}
@@ -104,7 +138,7 @@ function VariableCostDetail(props) {
 
         {isEdit ? (
           <div className="btn-area">
-            <button type="button" className="save-btn">
+            <button type="button" className="save-btn" onClick={update}>
               Guardar
             </button>
             <button
@@ -131,4 +165,17 @@ function VariableCostDetail(props) {
   );
 }
 
-export default VariableCostDetail;
+const mapStateToProps = (state) => {
+  return {
+    costs: state.variableCostReducer.costs,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSetVariableCost: (payload) =>
+      dispatch(actionCreators.setVariableCost(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VariableCostDetail);
