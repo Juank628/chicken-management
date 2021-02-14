@@ -6,7 +6,7 @@
     "type unit cost"
     "btn-area btn-area btn-area";
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.5fr 1fr 1fr 2fr;
+  grid-template-rows: 10px minmax(80px, auto) minmax(80px, auto) 80px;
   grid-gap: 20px;
 }
 
@@ -45,26 +45,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
+  align-items: end;
 }
 
-.VariableCostDetail .edit-btn {
+.VariableCostDetail .btn-edit {
   grid-column-start: 1;
   grid-column-end: 3;
-  background-color: var(--info);
-  border-color: var(--info);
-  color: var(--on-info);
-}
-
-.VariableCostDetail .save-btn {
-  background-color: var(--success);
-  border-color: var(--success);
-  color: var(--on-success);
-}
-
-.VariableCostDetail .cancel-btn {
-  background-color: var(--danger);
-  border-color: var(--danger);
-  color: var(--on-danger);
 }
 
 .VariableCostDetail input,
@@ -75,10 +61,6 @@ select {
 
 .VariableCostDetail label {
   margin-bottom: 5px;
-}
-
-.VariableCostDetail button {
-  margin-top: 80px;
 }
 
 .VariableCostDetail .close-icon {

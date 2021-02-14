@@ -35,6 +35,12 @@ select:disabled {
   color: var(--on-disabled);
 }
 
+button:disabled {
+  background-color: var(--disabled);
+  border-color: var(--disabled);
+  color: var(--on-disabled);
+}
+
 input:focus,
 select:focus,
 button:focus {
@@ -46,6 +52,31 @@ button {
   border-radius: 0.25rem;
   font-size: 1rem;
   line-height: 1.5;
+  height: 50px;
+}
+
+.btn-success {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--on-success);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: var(--on-danger);
+}
+
+.btn-info {
+  background-color: var(--info);
+  border-color: var(--info);
+  color: var(--on-info);
+}
+
+.field-error-text {
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin: 0 2ch
 }
 
 /****standard table*****/

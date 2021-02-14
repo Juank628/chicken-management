@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
+import * as validate from "../../utilities/validation";
 import "./VariableCostDetail.css";
 import close_icon from "../../img/close_icon.svg";
 import { types, units } from "../../config/units.json";
 
 function VariableCostDetail(props) {
   const [isEdit, setIsEdit] = useState(false);
+  const [isNew, setIsNew] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [availableUnits, setAvailableUnits] = useState([]);
   const [detail, setDetail] = useState({
     id: "0",
@@ -14,6 +17,12 @@ function VariableCostDetail(props) {
     unitType: "seleccione...",
     unitSymbol: "seleccione...",
     cost: 0,
+  });
+  const [validationErrors, setValidationErrors] = useState({
+    description: [],
+    unitType: [],
+    unitSymbol: [],
+    cost: [],
   });
 
   const getAvailableUnits = useCallback(() => {
@@ -28,20 +37,44 @@ function VariableCostDetail(props) {
       setDetail({
         ...detail,
         unitType: e.target.value,
-        unitSymbol: "0",
+        unitSymbol: "",
       });
+      validateField("unitType", e.target.value);
+      validateField("unitSymbol", "");
     } else {
       setDetail({
         ...detail,
         [e.target.name]: e.target.value,
       });
+      validateField(e.target.name, e.target.value);
     }
+  };
+
+  const validateField = (fieldName, fieldValue) => {
+    let errors = [];
+    if (fieldName === "description") {
+      errors = validate.isString(fieldValue, 1, 30);
+    }
+    if (fieldName === "unitType" || fieldName === "unitSymbol") {
+      errors = validate.isNotEmpty(fieldValue);
+    }
+    if (fieldName === "cost") {
+      errors = validate.isNumber(fieldValue, 0);
+    }
+    setValidationErrors({
+      ...validationErrors,
+      [fieldName]: errors,
+    });
+  };
+
+  const save = () => {
+    isNew ? create() : update();
   };
 
   const create = () => {
     const newCosts = props.costs;
     newCosts.push(detail);
-    console.log(newCosts);
+    props.closeModal();
   };
 
   const update = () => {
@@ -57,12 +90,29 @@ function VariableCostDetail(props) {
       setDetail({ ...props.data });
     } else {
       setIsEdit(true);
+      setIsNew(true);
+      setIsValid(false);
+      setValidationErrors({
+        description: [""],
+        unitType: [""],
+        unitSymbol: [""],
+        cost: [],
+      });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     getAvailableUnits();
   }, [detail.unitType, getAvailableUnits]);
+
+  useEffect(() => {
+    const errorsCount =
+      validationErrors.description.length +
+      validationErrors.unitType.length +
+      validationErrors.unitSymbol.length +
+      validationErrors.cost.length;
+    errorsCount ? setIsValid(false) : setIsValid(true);
+  }, [validationErrors]);
 
   return (
     <div className="VariableCostDetail">
@@ -88,7 +138,13 @@ function VariableCostDetail(props) {
             onChange={changeHandler}
             disabled={!isEdit}
             placeholder="Ingrese la descripcion..."
+            autoComplete="off"
           />
+          {validationErrors.description.map((error, index) => (
+            <p key={index} className="field-error-text">
+              {error}
+            </p>
+          ))}
         </div>
         <div className="type-field">
           <label>Medida</label>
@@ -99,13 +155,18 @@ function VariableCostDetail(props) {
             onChange={changeHandler}
             disabled={!isEdit}
           >
-            <option value="0">seleccione...</option>
+            <option value="">seleccione...</option>
             {types.map((type, index) => (
               <option key={index} value={type}>
                 {type}
               </option>
             ))}
           </select>
+          {validationErrors.unitType.map((error, index) => (
+            <p key={index} className="field-error-text">
+              {error}
+            </p>
+          ))}
         </div>
         <div className="unit-field">
           <label>Unidad</label>
@@ -116,13 +177,18 @@ function VariableCostDetail(props) {
             onChange={changeHandler}
             disabled={!isEdit}
           >
-            <option value="0">seleccione...</option>
+            <option value="">seleccione...</option>
             {availableUnits.map((unit, index) => (
               <option key={index} value={unit.symbol}>
                 {unit.symbol}
               </option>
             ))}
           </select>
+          {validationErrors.unitSymbol.map((error, index) => (
+            <p key={index} className="field-error-text">
+              {error}
+            </p>
+          ))}
         </div>
         <div className="cost-field">
           <label>Costo</label>
@@ -134,17 +200,27 @@ function VariableCostDetail(props) {
             onChange={changeHandler}
             disabled={!isEdit}
           />
+          {validationErrors.cost.map((error, index) => (
+            <p key={index} className="field-error-text">
+              {error}
+            </p>
+          ))}
         </div>
 
         {isEdit ? (
           <div className="btn-area">
-            <button type="button" className="save-btn" onClick={update}>
+            <button
+              type="button"
+              className="btn-success"
+              onClick={save}
+              disabled={!isValid}
+            >
               Guardar
             </button>
             <button
               type="button"
-              className="cancel-btn"
-              onClick={() => setIsEdit(false)}
+              className="btn-danger"
+              onClick={() => props.closeModal()}
             >
               Cancelar
             </button>
@@ -153,7 +229,7 @@ function VariableCostDetail(props) {
           <div className="btn-area">
             <button
               type="button"
-              className="edit-btn"
+              className="btn-info btn-edit"
               onClick={() => setIsEdit(true)}
             >
               Editar
