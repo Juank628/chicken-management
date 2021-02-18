@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./VariableCostsTable.css";
 import Modal from "../../Modal/Modal";
 import VariableCostDetail from "../../VariableCostDetail/VariableCostDetail";
@@ -20,6 +20,16 @@ function VariableCostsTable(props) {
     }
     setShowModal(true);
   };
+
+  const getVariableCosts = async () => {
+    const res = await fetch("http://localhost:4000/fixed-costs/get-all");
+    const data = await res.json();
+    console.log(data)
+  };
+
+  useEffect(() => {
+    //getVariableCosts();
+  }, []);
 
   return (
     <div className="VariableCostTable">

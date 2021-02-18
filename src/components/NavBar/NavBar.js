@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./NavBar.css";
 import chicken_icon from "../../img/chicken_icon.svg";
 import menu_icon from "../../img/menu_icon.svg";
@@ -31,7 +32,7 @@ export default function NavBar() {
           <ul>
             {navLinksInfo.map((link, index) => (
               <li key={index}>
-                <a href={link.ref}>{link.text}</a>
+                <Link to={link.ref}>{link.text}</Link>
               </li>
             ))}
           </ul>
@@ -41,7 +42,7 @@ export default function NavBar() {
         <ul>
           {navLinksInfo.map((link, index) => (
             <li key={index}>
-              <a href={link.ref}>{link.text}</a>
+              <Link to={link.ref}>{link.text}</Link>
             </li>
           ))}
         </ul>

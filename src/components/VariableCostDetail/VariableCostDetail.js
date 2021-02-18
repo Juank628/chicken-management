@@ -39,32 +39,38 @@ function VariableCostDetail(props) {
         unitType: e.target.value,
         unitSymbol: "",
       });
-      validateField("unitType", e.target.value);
-      validateField("unitSymbol", "");
+      validateFields(["unitType", "unitSymbol"], [e.target.value, ""]);
     } else {
       setDetail({
         ...detail,
         [e.target.name]: e.target.value,
       });
-      validateField(e.target.name, e.target.value);
+      validateFields([e.target.name], [e.target.value]);
     }
   };
 
-  const validateField = (fieldName, fieldValue) => {
-    let errors = [];
-    if (fieldName === "description") {
-      errors = validate.isString(fieldValue, 1, 30);
-    }
-    if (fieldName === "unitType" || fieldName === "unitSymbol") {
-      errors = validate.isNotEmpty(fieldValue);
-    }
-    if (fieldName === "cost") {
-      errors = validate.isNumber(fieldValue, 0);
-    }
-    setValidationErrors({
-      ...validationErrors,
-      [fieldName]: errors,
+  const validateFields = (fieldNames, fieldValues) => {
+    let errors = {
+      description: [],
+      unitType: [],
+      unitSymbol: [],
+      cost: [],
+    };
+    fieldNames.forEach((fieldName, index) => {
+      if (fieldName === "description") {
+        errors.description.push(validate.isString(fieldValues[index], 1, 30));
+      }
+      if (fieldName === "unitType") {
+        errors.unitType.push(validate.isNotEmpty(fieldValues[index]));
+      }
+      if (fieldName === "unitSymbol") {
+        errors.unitSymbol.push(validate.isNotEmpty(fieldValues[index]));
+      }
+      if (fieldName === "cost") {
+        errors.cost.push(validate.isNumber(fieldValues[index], 0));
+      }
     });
+    setValidationErrors({ ...errors });
   };
 
   const save = () => {
