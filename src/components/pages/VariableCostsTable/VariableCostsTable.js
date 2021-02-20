@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./VariableCostsTable.css";
+import { connect } from "react-redux";
+import * as actionCreators from "../../../store/actions";
 import Modal from "../../Modal/Modal";
 import VariableCostDetail from "../../VariableCostDetail/VariableCostDetail";
-import { connect } from "react-redux";
 import TableTools from "../../TableTools/TableTools";
 
 function VariableCostsTable(props) {
@@ -14,22 +15,16 @@ function VariableCostsTable(props) {
       setSelectedItem(null);
     } else {
       const item = props.variableCosts.find(
-        (item) => item.id === e.currentTarget.id
+        (item) => item.id === parseInt(e.currentTarget.id)
       );
       setSelectedItem(item);
     }
     setShowModal(true);
   };
 
-  const getVariableCosts = async () => {
-    const res = await fetch("http://localhost:4000/fixed-costs/get-all");
-    const data = await res.json();
-    console.log(data)
-  };
-
   useEffect(() => {
-    //getVariableCosts();
-  }, []);
+    props.actReadVariableCosts();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="VariableCostTable">
@@ -71,7 +66,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    actReadVariableCosts: () => dispatch(actionCreators.readVariableCosts()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VariableCostsTable);

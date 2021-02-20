@@ -50,27 +50,23 @@ function VariableCostDetail(props) {
   };
 
   const validateFields = (fieldNames, fieldValues) => {
-    let errors = {
-      description: [],
-      unitType: [],
-      unitSymbol: [],
-      cost: [],
-    };
+    let err = validationErrors;
+
     fieldNames.forEach((fieldName, index) => {
       if (fieldName === "description") {
-        errors.description.push(validate.isString(fieldValues[index], 1, 30));
+        err.description.push(...validate.isString(fieldValues[index], 1, 30));
       }
       if (fieldName === "unitType") {
-        errors.unitType.push(validate.isNotEmpty(fieldValues[index]));
+        err.unitType.push(...validate.isNotEmpty(fieldValues[index]));
       }
       if (fieldName === "unitSymbol") {
-        errors.unitSymbol.push(validate.isNotEmpty(fieldValues[index]));
+        err.unitSymbol.push(...validate.isNotEmpty(fieldValues[index]));
       }
       if (fieldName === "cost") {
-        errors.cost.push(validate.isNumber(fieldValues[index], 0));
+        err.cost.push(...validate.isNumber(fieldValues[index], 0));
       }
     });
-    setValidationErrors({ ...errors });
+    setValidationErrors({ ...err });
   };
 
   const save = () => {
@@ -78,16 +74,14 @@ function VariableCostDetail(props) {
   };
 
   const create = () => {
-    const newCosts = props.costs;
-    newCosts.push(detail);
-    props.closeModal();
+    props.actCreateVariableCost(detail);
   };
 
   const update = () => {
     const newCosts = props.costs;
     const indexToUpdate = newCosts.findIndex((item) => item.id === detail.id);
     newCosts[indexToUpdate] = detail;
-    props.onSetVariableCost(newCosts);
+    props.actSetVariableCosts(newCosts);
     props.closeModal();
   };
 
@@ -255,8 +249,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSetVariableCost: (payload) =>
-      dispatch(actionCreators.setVariableCost(payload)),
+    actSetVariableCosts: (payload) =>
+      dispatch(actionCreators.setVariableCosts(payload)),
+    actCreateVariableCost: (payload) =>
+      dispatch(actionCreators.createVariableCost(payload)),
   };
 };
 
