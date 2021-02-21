@@ -5,6 +5,7 @@ import * as validate from "../../utilities/validation";
 import "./VariableCostDetail.css";
 import close_icon from "../../img/close_icon.svg";
 import { types, units } from "../../config/units.json";
+import InputField from "../InputField/InputField";
 
 function VariableCostDetail(props) {
   const [isEdit, setIsEdit] = useState(false);
@@ -47,6 +48,13 @@ function VariableCostDetail(props) {
       });
       validateFields([e.target.name], [e.target.value]);
     }
+  };
+
+  const onChange = (e) => {
+    setDetail({
+      ...detail,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const validateFields = (fieldNames, fieldValues) => {
@@ -129,22 +137,15 @@ function VariableCostDetail(props) {
           <h2>Id: {detail.id}</h2>
         </div>
         <div className="desc-field">
-          <label>Decripcion</label>
-          <br />
-          <input
-            type="text"
+          <InputField
+            label="Descripción"
             name="description"
             value={detail.description}
-            onChange={changeHandler}
-            disabled={!isEdit}
-            placeholder="Ingrese la descripcion..."
-            autoComplete="off"
+            onChange={onChange}
+            minLength="0"
+            maxLength="30"
+            validations={["isNotEmpty", "isString"]}
           />
-          {validationErrors.description.map((error, index) => (
-            <p key={index} className="field-error-text">
-              {error}
-            </p>
-          ))}
         </div>
         <div className="type-field">
           <label>Medida</label>
