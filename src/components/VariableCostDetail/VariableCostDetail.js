@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
-import * as validate from "../../utilities/validation";
 import "./VariableCostDetail.css";
 import close_icon from "../../img/close_icon.svg";
 import { types, units } from "../../config/units.json";
 import InputField from "../InputField/InputField";
+import SelectField from "../SelectField/SelectField";
 
 function VariableCostDetail(props) {
   const [isEdit, setIsEdit] = useState(false);
   const [isNew, setIsNew] = useState(false);
-  const [isValid, setIsValid] = useState(true);
+  const [isFormValid, setIsFormValid] = useState(true);
   const [availableUnits, setAvailableUnits] = useState([]);
   const [detail, setDetail] = useState({
     id: "0",
@@ -20,35 +20,21 @@ function VariableCostDetail(props) {
     cost: 0,
   });
   const [validationErrors, setValidationErrors] = useState({
-    description: [],
-    unitType: [],
-    unitSymbol: [],
-    cost: [],
+    description: false,
+    unitType: false,
+    unitSymbol: false,
+    cost: false,
   });
 
   const getAvailableUnits = useCallback(() => {
-    let newAvailableUnits = units.filter(
-      (unit) => unit.type === detail.unitType
-    );
+    let newAvailableUnits = [];
+    units.forEach((unit) => {
+      if (unit.type === detail.unitType) {
+        newAvailableUnits.push(unit.symbol);
+      }
+    });
     setAvailableUnits(newAvailableUnits);
   }, [detail.unitType]);
-
-  const changeHandler = (e) => {
-    if (e.target.name === "unitType") {
-      setDetail({
-        ...detail,
-        unitType: e.target.value,
-        unitSymbol: "",
-      });
-      validateFields(["unitType", "unitSymbol"], [e.target.value, ""]);
-    } else {
-      setDetail({
-        ...detail,
-        [e.target.name]: e.target.value,
-      });
-      validateFields([e.target.name], [e.target.value]);
-    }
-  };
 
   const onChange = (e) => {
     setDetail({
@@ -57,24 +43,11 @@ function VariableCostDetail(props) {
     });
   };
 
-  const validateFields = (fieldNames, fieldValues) => {
-    let err = validationErrors;
-
-    fieldNames.forEach((fieldName, index) => {
-      if (fieldName === "description") {
-        err.description.push(...validate.isString(fieldValues[index], 1, 30));
-      }
-      if (fieldName === "unitType") {
-        err.unitType.push(...validate.isNotEmpty(fieldValues[index]));
-      }
-      if (fieldName === "unitSymbol") {
-        err.unitSymbol.push(...validate.isNotEmpty(fieldValues[index]));
-      }
-      if (fieldName === "cost") {
-        err.cost.push(...validate.isNumber(fieldValues[index], 0));
-      }
+  const onValidation = (name, value) => {
+    setValidationErrors({
+      ...validationErrors,
+      [name]: value,
     });
-    setValidationErrors({ ...err });
   };
 
   const save = () => {
@@ -99,13 +72,7 @@ function VariableCostDetail(props) {
     } else {
       setIsEdit(true);
       setIsNew(true);
-      setIsValid(false);
-      setValidationErrors({
-        description: [""],
-        unitType: [""],
-        unitSymbol: [""],
-        cost: [],
-      });
+      setIsFormValid(false);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -114,12 +81,8 @@ function VariableCostDetail(props) {
   }, [detail.unitType, getAvailableUnits]);
 
   useEffect(() => {
-    const errorsCount =
-      validationErrors.description.length +
-      validationErrors.unitType.length +
-      validationErrors.unitSymbol.length +
-      validationErrors.cost.length;
-    errorsCount ? setIsValid(false) : setIsValid(true);
+    const { description, unitType, unitSymbol, cost } = validationErrors;
+    setIsFormValid(!(description || unitType || unitSymbol || cost));
   }, [validationErrors]);
 
   return (
@@ -140,72 +103,51 @@ function VariableCostDetail(props) {
           <InputField
             label="Descripción"
             name="description"
+            disabled={!isEdit}
             value={detail.description}
-            onChange={onChange}
             minLength="0"
             maxLength="30"
             validations={["isNotEmpty", "isString"]}
+            onChange={onChange}
+            onValidation={onValidation}
           />
         </div>
         <div className="type-field">
-          <label>Medida</label>
-          <br />
-          <select
+          <SelectField
+            label="Medida"
             name="unitType"
-            value={detail.unitType}
-            onChange={changeHandler}
             disabled={!isEdit}
-          >
-            <option value="">seleccione...</option>
-            {types.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          {validationErrors.unitType.map((error, index) => (
-            <p key={index} className="field-error-text">
-              {error}
-            </p>
-          ))}
+            value={detail.unitType}
+            options={types}
+            validations={["isNotEmpty"]}
+            onChange={onChange}
+            onValidation={onValidation}
+          />
         </div>
         <div className="unit-field">
-          <label>Unidad</label>
-          <br />
-          <select
+          <SelectField
+            label="Unidad"
             name="unitSymbol"
-            value={detail.unitSymbol}
-            onChange={changeHandler}
             disabled={!isEdit}
-          >
-            <option value="">seleccione...</option>
-            {availableUnits.map((unit, index) => (
-              <option key={index} value={unit.symbol}>
-                {unit.symbol}
-              </option>
-            ))}
-          </select>
-          {validationErrors.unitSymbol.map((error, index) => (
-            <p key={index} className="field-error-text">
-              {error}
-            </p>
-          ))}
+            value={detail.unitSymbol}
+            options={availableUnits}
+            validations={["isNotEmpty"]}
+            onChange={onChange}
+            onValidation={onValidation}
+          />
         </div>
         <div className="cost-field">
-          <label>Costo</label>
-          <br />
-          <input
+          <InputField
             type="number"
+            label="Costo"
             name="cost"
-            value={detail.cost}
-            onChange={changeHandler}
             disabled={!isEdit}
+            value={detail.cost}
+            min={0}
+            validations={["isNumber"]}
+            onChange={onChange}
+            onValidation={onValidation}
           />
-          {validationErrors.cost.map((error, index) => (
-            <p key={index} className="field-error-text">
-              {error}
-            </p>
-          ))}
         </div>
 
         {isEdit ? (
@@ -214,7 +156,7 @@ function VariableCostDetail(props) {
               type="button"
               className="btn-success"
               onClick={save}
-              disabled={!isValid}
+              disabled={!isFormValid}
             >
               Guardar
             </button>

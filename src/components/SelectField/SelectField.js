@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import * as validate from "../../utilities/validation";
 
-export default function InputField({
+export default function SelectField({
   label = "",
-  type = "text",
   name,
-  placeholder,
   disabled = false,
-  autoComplete = "off",
-  minLength = -1,
-  maxLength = Infinity,
+  options = [],
   min = -Infinity,
   max = Infinity,
+  minLength = -1,
+  maxLength = Infinity,
   value,
   validations = [],
   onChange,
@@ -57,6 +55,7 @@ export default function InputField({
   }, [value, validateErrors]);
 
   useEffect(() => {
+    console.log(validationErrors);
     if (validationErrors.length > 0) {
       onValidation(name, true);
     } else {
@@ -68,19 +67,19 @@ export default function InputField({
     <React.Fragment>
       <label>{label}</label>
       <br />
-      <input
-        type={type}
+      <select
         name={name}
-        minLength={minLength}
-        maxLength={maxLength}
-        min={min}
-        max={max}
         value={value}
         onChange={onChangeHandler}
         disabled={disabled}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-      />
+      >
+        <option value="">seleccione...</option>
+        {options.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
       {validationErrors.map((error, index) => (
         <p key={index} className="field-error-text">
           {error}
