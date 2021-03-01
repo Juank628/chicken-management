@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
 import "./VariableCostDetail.css";
@@ -15,8 +15,8 @@ function VariableCostDetail(props) {
   const [detail, setDetail] = useState({
     id: "0",
     description: "",
-    unitType: "seleccione...",
-    unitSymbol: "seleccione...",
+    unitType: "",
+    unitSymbol: "",
     cost: 0,
   });
   const [validationErrors, setValidationErrors] = useState({
@@ -25,6 +25,8 @@ function VariableCostDetail(props) {
     unitSymbol: false,
     cost: false,
   });
+  const isMounted = useRef(false);
+  const isFirstChange = useRef(true);
 
   const getAvailableUnits = useCallback(() => {
     let newAvailableUnits = [];
@@ -72,17 +74,31 @@ function VariableCostDetail(props) {
     } else {
       setIsEdit(true);
       setIsNew(true);
-      setIsFormValid(false);
+      setValidationErrors({
+        description: true,
+        unitType: true,
+        unitSymbol: true,
+      });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    getAvailableUnits();
+    if (isMounted.current) {
+      getAvailableUnits();
+      if (!isFirstChange.current) {
+        setDetail({
+          ...detail,
+          unitSymbol: "",
+        });
+      }
+      isFirstChange.current = false;
+    }
   }, [detail.unitType, getAvailableUnits]);
 
   useEffect(() => {
     const { description, unitType, unitSymbol, cost } = validationErrors;
     setIsFormValid(!(description || unitType || unitSymbol || cost));
+    isMounted.current = true;
   }, [validationErrors]);
 
   return (

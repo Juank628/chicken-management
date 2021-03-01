@@ -55,7 +55,6 @@ export default function SelectField({
   }, [value, validateErrors]);
 
   useEffect(() => {
-    console.log(validationErrors);
     if (validationErrors.length > 0) {
       onValidation(name, true);
     } else {
