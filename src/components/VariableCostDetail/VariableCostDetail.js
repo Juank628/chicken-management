@@ -60,12 +60,14 @@ function VariableCostDetail(props) {
     props.actCreateVariableCost(detail);
   };
 
-  const update = () => {
-    const newCosts = props.costs;
-    const indexToUpdate = newCosts.findIndex((item) => item.id === detail.id);
-    newCosts[indexToUpdate] = detail;
-    props.actSetVariableCosts(newCosts);
-    props.closeModal();
+  const update = async () => {
+    const res = await props.actUpdateVariableCost({
+      detail,
+      costs: props.costs,
+    });
+    if (res.status >= 200 && res.status < 300) {
+      props.closeModal();
+    }
   };
 
   useEffect(() => {
@@ -208,10 +210,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actSetVariableCosts: (payload) =>
-      dispatch(actionCreators.setVariableCosts(payload)),
     actCreateVariableCost: (payload) =>
       dispatch(actionCreators.createVariableCost(payload)),
+    actUpdateVariableCost: (payload) =>
+      dispatch(actionCreators.updateVariableCost(payload)),
   };
 };
 

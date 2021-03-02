@@ -6,12 +6,18 @@ const initialState = {
 
 const variableCostReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_VARIABLE_COST:
+    case actionTypes.SET_VARIABLE_COSTS:
       return {
         ...state,
-        costs: [...state.costs, ...action.payload] 
-        //[state.costs, ...action.payload],
+        costs: [...action.payload],
       };
+
+    case actionTypes.INSERT_VARIABLE_COST:
+      return {
+        ...state,
+        costs: [...state.costs, ...action.payload],
+      };
+
     default:
       return state;
   }

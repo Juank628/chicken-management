@@ -1,6 +1,8 @@
 export { setFixedCost } from "./fixedCostActions";
 export {
+  setVariableCosts,
+  insertVariableCost,
   createVariableCost,
   readVariableCosts,
-  setVariableCosts,
+  updateVariableCost,
 } from "./variableCostActions";
