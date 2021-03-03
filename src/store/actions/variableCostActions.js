@@ -23,7 +23,16 @@ export const modifyVariableCost = (data, costs) => {
   };
 };
 
-//set, insert, modify
+export const removeVariableCost = (id, costs) => {
+  const indexToDelete = costs.findIndex((item) => item.id === id);
+  costs.splice(indexToDelete, 1);
+  return {
+    type: actionTypes.SET_VARIABLE_COSTS,
+    payload: costs,
+  };
+};
+
+/********************database actions************************/
 
 export const createVariableCost = (payload) => {
   return async (dispatch) => {
@@ -39,6 +48,7 @@ export const createVariableCost = (payload) => {
       });
       const newItem = await res.json();
       dispatch(insertVariableCost([newItem]));
+      return res;
     } catch (err) {
       console.log(err);
     }
@@ -69,7 +79,25 @@ export const updateVariableCost = (payload) => {
       });
       const data = await res.json();
       dispatch(modifyVariableCost(data, payload.costs));
-      return res
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const deleteVariableCost = (payload) => {
+  return async (dispatch) => {
+    try {
+      const res = await fetch("http://localhost:4000/variable-costs/delete", {
+        method: "DELETE",
+        body: JSON.stringify({ id: payload.id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      dispatch(removeVariableCost(payload.id, payload.costs));
+      return res;
     } catch (err) {
       console.log(err);
     }

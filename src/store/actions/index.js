@@ -5,4 +5,5 @@ export {
   createVariableCost,
   readVariableCosts,
   updateVariableCost,
+  deleteVariableCost,
 } from "./variableCostActions";

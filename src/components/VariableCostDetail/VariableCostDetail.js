@@ -25,6 +25,8 @@ function VariableCostDetail(props) {
     unitSymbol: false,
     cost: false,
   });
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const isMounted = useRef(false);
   const isFirstChange = useRef(true);
 
@@ -53,20 +55,41 @@ function VariableCostDetail(props) {
   };
 
   const save = () => {
-    isNew ? create() : update();
+    setIsSaving(true);
+    isNew ? _create() : _update();
   };
 
-  const create = () => {
-    props.actCreateVariableCost(detail);
+  const _create = async () => {
+    const res = await props.actCreateVariableCost(detail);
+    if (res.status >= 200 && res.status < 300) {
+      props.closeModal();
+    } else {
+      setIsSaving(false);
+    }
   };
 
-  const update = async () => {
+  const _update = async () => {
     const res = await props.actUpdateVariableCost({
       detail,
       costs: props.costs,
     });
     if (res.status >= 200 && res.status < 300) {
       props.closeModal();
+    } else {
+      setIsSaving(false);
+    }
+  };
+
+  const _delete = async () => {
+    setIsDeleting(true);
+    const res = await props.actDeleteVariableCost({
+      id: detail.id,
+      costs: props.costs,
+    });
+    if (res.status >= 200 && res.status < 300) {
+      props.closeModal();
+    } else {
+      setIsDeleting(false);
     }
   };
 
@@ -174,9 +197,9 @@ function VariableCostDetail(props) {
               type="button"
               className="btn-success"
               onClick={save}
-              disabled={!isFormValid}
+              disabled={!isFormValid || isSaving}
             >
-              Guardar
+              {isSaving ? "Guardando..." : "Guardar"}
             </button>
             <button
               type="button"
@@ -184,6 +207,9 @@ function VariableCostDetail(props) {
               onClick={() => props.closeModal()}
             >
               Cancelar
+            </button>
+            <button type="button" onClick={_delete} disabled={isDeleting}>
+              Eliminar
             </button>
           </div>
         ) : (
@@ -214,6 +240,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.createVariableCost(payload)),
     actUpdateVariableCost: (payload) =>
       dispatch(actionCreators.updateVariableCost(payload)),
+    actDeleteVariableCost: (payload) =>
+      dispatch(actionCreators.deleteVariableCost(payload)),
   };
 };
 
