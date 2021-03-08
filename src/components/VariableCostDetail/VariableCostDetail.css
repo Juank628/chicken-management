@@ -4,9 +4,14 @@
     "id id close"
     "desc desc desc"
     "type unit cost"
-    "btn-area btn-area btn-area";
+    "btn-area btn-area btn-area"
+    "advanced-area advanced-area advanced-area";
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 10px minmax(80px, auto) minmax(80px, auto) 80px;
+  grid-template-rows:
+    10px
+    minmax(80px, auto)
+    minmax(80px, auto)
+    minmax(80px, auto);
   grid-gap: 20px;
 }
 
@@ -46,6 +51,24 @@
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   align-items: end;
+}
+
+.VariableCostDetail .advanced-area {
+  grid-area: advanced-area;
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: end;
+  font-size: 0.8rem;
+}
+
+.VariableCostDetail .advanced-btn {
+  color: var(--info);
+  cursor: pointer;
+}
+
+.VariableCostDetail .delete-btn {
+  color: var(--danger);
+  cursor: pointer;
 }
 
 .VariableCostDetail .btn-edit {

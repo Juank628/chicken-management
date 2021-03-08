@@ -11,6 +11,7 @@ function VariableCostDetail(props) {
   const [isEdit, setIsEdit] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
+  const [isAdvanced, setIsAdvanced] = useState(false);
   const [availableUnits, setAvailableUnits] = useState([]);
   const [detail, setDetail] = useState({
     id: "0",
@@ -81,15 +82,17 @@ function VariableCostDetail(props) {
   };
 
   const _delete = async () => {
-    setIsDeleting(true);
-    const res = await props.actDeleteVariableCost({
-      id: detail.id,
-      costs: props.costs,
-    });
-    if (res.status >= 200 && res.status < 300) {
-      props.closeModal();
-    } else {
-      setIsDeleting(false);
+    if (!isDeleting) {
+      setIsDeleting(true);
+      const res = await props.actDeleteVariableCost({
+        id: detail.id,
+        costs: props.costs,
+      });
+      if (res.status >= 200 && res.status < 300) {
+        props.closeModal();
+      } else {
+        setIsDeleting(false);
+      }
     }
   };
 
@@ -192,26 +195,40 @@ function VariableCostDetail(props) {
         </div>
 
         {isEdit ? (
-          <div className="btn-area">
-            <button
-              type="button"
-              className="btn-success"
-              onClick={save}
-              disabled={!isFormValid || isSaving}
-            >
-              {isSaving ? "Guardando..." : "Guardar"}
-            </button>
-            <button
-              type="button"
-              className="btn-danger"
-              onClick={() => props.closeModal()}
-            >
-              Cancelar
-            </button>
-            <button type="button" onClick={_delete} disabled={isDeleting}>
-              Eliminar
-            </button>
-          </div>
+          <React.Fragment>
+            <div className="btn-area">
+              <button
+                type="button"
+                className="btn-success"
+                onClick={save}
+                disabled={!isFormValid || isSaving}
+              >
+                {isSaving ? "Guardando..." : "Guardar"}
+              </button>
+              <button
+                type="button"
+                className="btn-danger"
+                onClick={() => props.closeModal()}
+              >
+                Cancelar
+              </button>
+            </div>
+            {!isNew ? (
+              <div className="advanced-area">
+                <p
+                  className="advanced-btn"
+                  onClick={() => setIsAdvanced(!isAdvanced)}
+                >
+                  opciones avanzadas
+                </p>
+                {isAdvanced ? (
+                  <p className="delete-btn" onClick={_delete}>
+                    Eliminar
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+          </React.Fragment>
         ) : (
           <div className="btn-area">
             <button
