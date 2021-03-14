@@ -1,9 +1,25 @@
 import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import * as actionCreators from "../../store/actions";
 
-export default function LoadData() {
+function LoadData(props) {
   useEffect(() => {
-    console.log("load data");
+    props.actReadVariableCosts();
+    props.actReadRecipes()
   }, []);
 
   return null;
 }
+
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actReadVariableCosts: () => dispatch(actionCreators.readVariableCosts()),
+    actReadRecipes: () => dispatch(actionCreators.readRecipes())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoadData);

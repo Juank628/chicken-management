@@ -6,7 +6,9 @@ export default function TableTools(props) {
   return (
     <div className="TableTools">
       <div>
-        <input type="text" placeholder="Buscar..." />
+        {props.showSearch ? (
+          <input type="text" placeholder="Buscar..." />
+        ) : null}
       </div>
       <div className="icons-container">
         <img

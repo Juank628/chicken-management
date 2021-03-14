@@ -22,10 +22,6 @@ function VariableCostsTable(props) {
     setShowModal(true);
   };
 
-  useEffect(() => {
-    props.actReadVariableCosts();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <div className="VariableCostTable">
       <TableTools openAddModal={openModal(true)} />

@@ -1,12 +1,12 @@
 {
   "navLinksInfo": [
     {
-      "text": "costs",
-      "ref": "/cost"
+      "text": "costos variables",
+      "ref": "/variable-costs"
     },
     {
-      "text": "link 2",
-      "ref": "#"
+      "text": "recetas",
+      "ref": "/recipes-table"
     },
     {
       "text": "link 3",

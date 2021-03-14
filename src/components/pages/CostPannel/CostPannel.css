@@ -1,9 +1,0 @@
-.Cost-Pannel-Container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
-
-.box {
-  min-height: 50vh;
-}

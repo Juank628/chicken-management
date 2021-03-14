@@ -1,0 +1,41 @@
+.container {
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
+.container table {
+  margin: auto;
+  width: 100%;
+}
+
+.container h1 {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.container input {
+  width: 25ch;
+}
+
+.container select {
+  width: 27ch;
+}
+
+.container textarea {
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.inputArea {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px
+}
+
+.instructions {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
