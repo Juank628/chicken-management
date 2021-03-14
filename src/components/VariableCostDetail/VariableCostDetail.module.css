@@ -15,37 +15,37 @@
   grid-gap: 20px;
 }
 
-.VariableCostDetail .close-btn {
+.closeBtn {
   grid-area: close;
   text-align: right;
 }
 
-.VariableCostDetail .id-field {
+.idField {
   grid-area: id;
 }
 
-.VariableCostDetail .id-field h2 {
+.idField h2 {
   margin-top: 0;
   font-size: 1em;
 }
 
-.VariableCostDetail .desc-field {
+.descField {
   grid-area: desc;
 }
 
-.VariableCostDetail .type-field {
+.typeField {
   grid-area: type;
 }
 
-.VariableCostDetail .unit-field {
+.unitField {
   grid-area: unit;
 }
 
-.VariableCostDetail .cost-field {
+.costField {
   grid-area: cost;
 }
 
-.VariableCostDetail .btn-area {
+.btnArea {
   grid-area: btn-area;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -53,7 +53,7 @@
   align-items: end;
 }
 
-.VariableCostDetail .advanced-area {
+.advancedArea {
   grid-area: advanced-area;
   display: grid;
   grid-template-columns: 1fr;
@@ -61,32 +61,26 @@
   font-size: 0.8rem;
 }
 
-.VariableCostDetail .advanced-btn {
+.advancedBtn {
   color: var(--info);
   cursor: pointer;
 }
 
-.VariableCostDetail .delete-btn {
+.deleteBtn {
   color: var(--danger);
   cursor: pointer;
 }
 
-.VariableCostDetail .btn-edit {
+.btnEdit {
   grid-column-start: 1;
   grid-column-end: 3;
-}
-
-.VariableCostDetail input,
-select {
-  width: 100%;
-  margin-top: 10px;
 }
 
 .VariableCostDetail label {
   margin-bottom: 5px;
 }
 
-.VariableCostDetail .close-icon {
+.closeIcon {
   width: 20px;
   height: 20px;
 }

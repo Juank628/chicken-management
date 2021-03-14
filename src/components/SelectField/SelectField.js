@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import classes from "./SelectField.module.css";
 import * as validate from "../../utilities/validation";
 
 export default function SelectField({
+  showLabel = true,
   label = "",
   name,
   disabled = false,
   options = [],
+  size = 1,
   min = -Infinity,
   max = Infinity,
   minLength = -1,
@@ -64,13 +67,19 @@ export default function SelectField({
 
   return (
     <React.Fragment>
-      <label>{label}</label>
-      <br />
+      {showLabel ? (
+        <div>
+          <label>{label}</label>
+          <br />
+        </div>
+      ) : null}
       <select
         name={name}
         value={value}
+        size={size}
         onChange={onChangeHandler}
         disabled={disabled}
+        className={classes.selectField}
       >
         <option value="">seleccione...</option>
         {options.map((option, index) => (

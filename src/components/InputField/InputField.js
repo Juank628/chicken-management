@@ -1,3 +1,4 @@
+import classes from "./InputField.module.css";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import * as validate from "../../utilities/validation";
 
@@ -80,6 +81,7 @@ export default function InputField({
         disabled={disabled}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        className={classes.inputField}
       />
       {validationErrors.map((error, index) => (
         <p key={index} className="field-error-text">

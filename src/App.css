@@ -48,6 +48,7 @@ button:focus {
 }
 
 button {
+  cursor: pointer;
   border: 1px solid transparent;
   border-radius: 0.25rem;
   font-size: 1rem;

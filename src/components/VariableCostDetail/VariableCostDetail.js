@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
-import "./VariableCostDetail.css";
+import classes from "./VariableCostDetail.module.css";
 import close_icon from "../../img/close_icon.svg";
 import { types, units } from "../../config/units.json";
 import InputField from "../InputField/InputField";
@@ -130,20 +130,20 @@ function VariableCostDetail(props) {
   }, [validationErrors]);
 
   return (
-    <div className="VariableCostDetail">
+    <div className={classes.VariableCostDetail}>
       <form>
-        <div className="close-btn">
+        <div className={classes.closeBtn}>
           <img
             alt="close"
             src={close_icon}
-            className="close-icon"
+            className={classes.closeIcon}
             onClick={props.closeModal}
           />
         </div>
-        <div className="id-field">
+        <div className={classes.idField}>
           <h2>Id: {detail.id}</h2>
         </div>
-        <div className="desc-field">
+        <div className={classes.descField}>
           <InputField
             label="Descripción"
             name="description"
@@ -156,7 +156,7 @@ function VariableCostDetail(props) {
             onValidation={onValidation}
           />
         </div>
-        <div className="type-field">
+        <div className={classes.typeField}>
           <SelectField
             label="Medida"
             name="unitType"
@@ -168,7 +168,7 @@ function VariableCostDetail(props) {
             onValidation={onValidation}
           />
         </div>
-        <div className="unit-field">
+        <div className={classes.unitField}>
           <SelectField
             label="Unidad"
             name="unitSymbol"
@@ -180,7 +180,7 @@ function VariableCostDetail(props) {
             onValidation={onValidation}
           />
         </div>
-        <div className="cost-field">
+        <div className={classes.costField}>
           <InputField
             type="number"
             label="Costo"
@@ -196,7 +196,7 @@ function VariableCostDetail(props) {
 
         {isEdit ? (
           <React.Fragment>
-            <div className="btn-area">
+            <div className={classes.btnArea}>
               <button
                 type="button"
                 className="btn-success"
@@ -214,15 +214,15 @@ function VariableCostDetail(props) {
               </button>
             </div>
             {!isNew ? (
-              <div className="advanced-area">
+              <div className={classes.advancedArea}>
                 <p
-                  className="advanced-btn"
+                  className={classes.advancedBtn}
                   onClick={() => setIsAdvanced(!isAdvanced)}
                 >
                   opciones avanzadas
                 </p>
                 {isAdvanced ? (
-                  <p className="delete-btn" onClick={_delete}>
+                  <p className={classes.deleteBtn} onClick={_delete}>
                     Eliminar
                   </p>
                 ) : null}
@@ -230,10 +230,10 @@ function VariableCostDetail(props) {
             ) : null}
           </React.Fragment>
         ) : (
-          <div className="btn-area">
+          <div className={classes.btnArea}>
             <button
               type="button"
-              className="btn-info btn-edit"
+              className={`btn-info ${classes.btnEdit}`}
               onClick={() => setIsEdit(true)}
             >
               Editar

@@ -1,20 +1,20 @@
 import React from "react";
 import add_icon from "../../img/add_icon.svg";
-import "./TableTools.css";
+import classes from "./TableTools.module.css";
 
 export default function TableTools(props) {
   return (
-    <div className="TableTools">
+    <div className={classes.tableTools}>
       <div>
         {props.showSearch ? (
           <input type="text" placeholder="Buscar..." />
         ) : null}
       </div>
-      <div className="icons-container">
+      <div className={classes.iconsContainer}>
         <img
           src={add_icon}
           alt="add"
-          className="add-icon"
+          className={classes.addIcon}
           onClick={props.openAddModal}
         />
       </div>

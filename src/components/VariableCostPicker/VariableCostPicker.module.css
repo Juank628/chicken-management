@@ -1,0 +1,30 @@
+.container form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.container button {
+  width: 100%;
+}
+
+.costList,
+.costFilter {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.costFilter input {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.costList select {
+  width: 100%;
+}
+
+.btnEditArea {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
