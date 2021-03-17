@@ -1,18 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import classes from "./Recipe.module.css";
+import { units } from "../../../config/units.json";
 import Modal from "../../Modal/Modal";
 import VariableCostPicker from "../../VariableCostPicker/VariableCostPicker";
 import TableTools from "../../TableTools/TableTools";
 import InputField from "../../InputField/InputField";
 import SelectField from "../../SelectField/SelectField";
 
-function Recipe() {
+function Recipe(props) {
   const [showModal, setShowModal] = useState(false);
+  const [costsData, setCostsData] = useState([]);
+  const [costsUnitSymbol, setCostsUnitSymbol] = useState([]);
+  const [costsQuantity, setCostsQuantity] = useState([]);
+  const [totalCost, setTotalCost] = useState(0);
+
   const onChange = () => {};
   const onValidation = () => {};
   const openModal = (isNew) => (e) => {
     setShowModal(true);
   };
+
+  const addCost = (data, unitSymbol, quantity) => {
+    setCostsData([...costsData, data]);
+    setCostsUnitSymbol([...costsUnitSymbol, unitSymbol]);
+    setCostsQuantity([...costsQuantity, quantity]);
+  };
+
+  const updateCost = (costData, costQuantity) => {
+    console.log("update cost:", costData, costQuantity);
+  };
+
+  useEffect(() => {
+    let newTotalCost = 0;
+    costsData.forEach((cost, index) => {
+      //calculate cost
+    });
+  }, [costsData, costsUnitSymbol, costsQuantity]);
 
   return (
     <div>
@@ -32,24 +56,14 @@ function Recipe() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Pollo</td>
-              <td>Kg</td>
-              <td>0.25</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Lechuga</td>
-              <td>Kg</td>
-              <td>0.3</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Tomate</td>
-              <td>Kg</td>
-              <td>0.7</td>
-            </tr>
+            {costsData.map((cost, index) => (
+              <tr key={cost.id}>
+                <td>{cost.id}</td>
+                <td>{cost.description}</td>
+                <td>{costsUnitSymbol[index]}</td>
+                <td>{costsQuantity[index]}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <div className={classes.inputArea}>
@@ -81,7 +95,7 @@ function Recipe() {
             />
           </div>
           <div>
-            <p>Costo: S/7.36</p>
+            <p>Costo: S/{totalCost}</p>
             <p>Ganancia: S/3.2</p>
             <p>Ganancia: 30%</p>
           </div>
@@ -91,6 +105,8 @@ function Recipe() {
       <Modal show={showModal} closeModal={() => setShowModal(false)}>
         <VariableCostPicker
           closeModal={() => setShowModal(false)}
+          addCost={addCost}
+          updateCost={updateCost}
           //data={selectedItem}
         />
       </Modal>
@@ -98,4 +114,14 @@ function Recipe() {
   );
 }
 
-export default Recipe;
+const mapStateToProps = (state) => {
+  return {
+    variableCosts: state.variableCostReducer.costs,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Recipe);

@@ -1,18 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import classes from "./VariableCostPicker.module.css";
 import { connect } from "react-redux";
+import { units } from "../../config/units.json";
 import InputField from "../InputField/InputField";
 import SelectField from "../SelectField/SelectField";
 
 function VariableCostPicker(props) {
   const [isEdit, setIsEdit] = useState(false);
+  const [isNew, setIsNew] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [filteredCostsNames, setFilteredCostsNames] = useState([]);
   const [noFilteredCostsNames, setNoFilteredCostsNames] = useState([]);
+  const [selectedCost, setSelectedCost] = useState({});
+  const [unitSymbols, setUnitSymbols] = useState([]);
   const [fieldsData, setFieldsData] = useState({
     filterCriteria: "",
     description: "",
     unitSymbol: "",
     quantity: 1,
+  });
+  const [validationErrors, setValidationErrors] = useState({
+    description: true,
+    unitSymbol: true,
+    quantity: true,
   });
   const isMounted = useRef(false);
 
@@ -22,9 +32,41 @@ function VariableCostPicker(props) {
       [e.target.name]: e.target.value,
     });
   };
-  const onValidation = () => {};
+
+  const onValidation = (name, value) => {
+    setValidationErrors({
+      ...validationErrors,
+      [name]: value,
+    });
+  };
+
+  const save = () => {
+    const costData = props.variableCosts.find(
+      (cost) => cost.description === fieldsData.description
+    );
+    const costUnitSymbol = fieldsData.unitSymbol;
+    const costQuantity = fieldsData.quantity;
+
+    if (isNew) {
+      props.addCost(costData, costUnitSymbol, costQuantity);
+    } else {
+      props.updateCost(costData, costUnitSymbol, costQuantity);
+    }
+    props.closeModal();
+  };
 
   useEffect(() => {
+    if (props.data) {
+      console.log("not new");
+    } else {
+      setIsNew(true);
+      setIsEdit(true);
+      setValidationErrors({
+        description: true,
+        unitSymbol: true,
+        quantity: true,
+      });
+    }
     let onlyNames = props.variableCosts.map((item) => {
       return item.description;
     });
@@ -42,6 +84,30 @@ function VariableCostPicker(props) {
     }
     isMounted.current = true;
   }, [fieldsData.filterCriteria]);
+
+  useEffect(() => {
+    const selectedItem = props.variableCosts.find(
+      (item) => item.description === fieldsData.description
+    );
+    setSelectedCost(selectedItem);
+  }, [fieldsData.description]);
+
+  useEffect(() => {
+    if (selectedCost) {
+      const availableUnits = [];
+      units.forEach((unit) => {
+        if (unit.type === selectedCost.unitType) {
+          availableUnits.push(unit.symbol);
+        }
+      });
+      setUnitSymbols(availableUnits);
+    }
+  }, [selectedCost]);
+
+  useEffect(() => {
+    const { description, unitSymbol, quantity } = validationErrors;
+    setIsFormValid(!(description || unitSymbol || quantity));
+  }, [validationErrors]);
 
   return (
     <div className={classes.container}>
@@ -76,7 +142,7 @@ function VariableCostPicker(props) {
             name="unitSymbol"
             disabled={false}
             value={fieldsData.unitSymbol}
-            options={[]}
+            options={unitSymbols}
             validations={["isNotEmpty"]}
             onChange={onChange}
             onValidation={onValidation}
@@ -90,20 +156,32 @@ function VariableCostPicker(props) {
             name="quantity"
             disabled={false}
             value={fieldsData.quantity}
+            min={0}
+            validations={["isNumber"]}
             onChange={onChange}
             onValidation={onValidation}
           />
         </div>
 
+        {isFormValid ? (
+          <div className={classes.brief}>
+            <p>{`${fieldsData.quantity}${fieldsData.unitSymbol} de ${fieldsData.description}`}</p>
+          </div>
+        ) : null}
+
         {isEdit ? (
           <React.Fragment>
             <div>
-              <button type="button" className="btn-success">
+              <button type="button" className="btn-success" onClick={save}>
                 Guardar
               </button>
             </div>
             <div>
-              <button type="button" className="btn-danger">
+              <button
+                type="button"
+                className="btn-danger"
+                onClick={() => props.closeModal()}
+              >
                 Cancelar
               </button>
             </div>
