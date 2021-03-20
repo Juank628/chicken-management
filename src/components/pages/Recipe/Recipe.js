@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import classes from "./Recipe.module.css";
 import { units } from "../../../config/units.json";
+import { calculateSubtotals } from "../../../utilities/calculation";
 import Modal from "../../Modal/Modal";
 import VariableCostPicker from "../../VariableCostPicker/VariableCostPicker";
 import TableTools from "../../TableTools/TableTools";
@@ -13,6 +14,7 @@ function Recipe(props) {
   const [costsData, setCostsData] = useState([]);
   const [costsUnitSymbol, setCostsUnitSymbol] = useState([]);
   const [costsQuantity, setCostsQuantity] = useState([]);
+  const [subtotals, setSubtotals] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
 
   const onChange = () => {};
@@ -32,10 +34,16 @@ function Recipe(props) {
   };
 
   useEffect(() => {
-    let newTotalCost = 0;
-    costsData.forEach((cost, index) => {
-      //calculate cost
-    });
+    const newSubtotals = calculateSubtotals(
+      units,
+      props.variableCosts,
+      costsData,
+      costsUnitSymbol,
+      costsQuantity
+    );
+    const newTotalCost = newSubtotals.reduce((acc, value) => acc + value, 0);
+    setSubtotals(newSubtotals);
+    setTotalCost(newTotalCost);
   }, [costsData, costsUnitSymbol, costsQuantity]);
 
   return (
@@ -53,6 +61,7 @@ function Recipe(props) {
               <th>descripcion</th>
               <th>unidad</th>
               <th>cantidad</th>
+              <th>subtotal</th>
             </tr>
           </thead>
           <tbody>
@@ -62,6 +71,7 @@ function Recipe(props) {
                 <td>{cost.description}</td>
                 <td>{costsUnitSymbol[index]}</td>
                 <td>{costsQuantity[index]}</td>
+                <td>{subtotals[index]}</td>
               </tr>
             ))}
           </tbody>
