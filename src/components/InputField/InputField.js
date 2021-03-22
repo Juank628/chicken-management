@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import * as validate from "../../utilities/validation";
 
 export default function InputField({
+  showLabel = true,
   label = "",
   type = "text",
   name,
@@ -67,8 +68,12 @@ export default function InputField({
 
   return (
     <React.Fragment>
-      <label>{label}</label>
-      <br />
+      {showLabel ? (
+        <div>
+          <label>{label}</label>
+          <br />
+        </div>
+      ) : null}
       <input
         type={type}
         name={name}

@@ -34,26 +34,28 @@ export const setRecipes = (payload) => {
 
 /********************database actions************************/
 
-/* export const createVariableCost = (payload) => {
+export const createRecipe = (payload) => {
   return async (dispatch) => {
     try {
-      let data = payload;
-      delete data.id;
-      const res = await fetch("http://localhost:4000/variable-costs/create", {
+      let { recipeData, recipeCosts } = payload;
+      delete recipeData.id;
+
+      const res = await fetch("http://localhost:4000/recipes/create", {
         method: "POST",
-        body: JSON.stringify({ ...data }),
+        body: JSON.stringify({ recipeData, recipeCosts }),
         headers: {
           "Content-Type": "application/json",
         },
       });
       const newItem = await res.json();
-      dispatch(insertVariableCost([newItem]));
+      console.log(newItem)
+      //dispatch(insertVariableCost([newItem]));
       return res;
     } catch (err) {
       console.log(err);
     }
   };
-}; */
+};
 
 export const readRecipes = () => {
   return async (dispatch) => {

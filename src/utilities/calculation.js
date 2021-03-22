@@ -1,5 +1,12 @@
-export const calculateSubtotals = (units, variableCosts, costsData, costsUnitSymbol, costsQuantity) => {
+export const calculateSubtotals = (
+  units,
+  variableCosts,
+  costsData,
+  costsUnitSymbol,
+  costsQuantity
+) => {
   let newSubtotals = [];
+  let calculatedCost = 0;
 
   costsData.forEach((cost, index) => {
     const variableCost = variableCosts.find(
@@ -13,13 +20,13 @@ export const calculateSubtotals = (units, variableCosts, costsData, costsUnitSym
       (unit) => unit.symbol === variableCost.unitSymbol
     );
 
-    let calculatedCost =
+    calculatedCost =
       costsQuantity[index] *
       costUnit.factor *
       (variableCost.cost / variableCostUnit.factor);
 
-    newSubtotals.push(calculatedCost);
+    newSubtotals.push(calculatedCost.toFixed(2));
   });
 
-  return newSubtotals
+  return newSubtotals;
 };
