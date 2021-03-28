@@ -1,3 +1,4 @@
 {
-  "families": ["desayunos", "brasas", "sanguches", "entradas", "postres"]
+  "families": ["desayunos", "brasas", "sanguches", "entradas", "postres"],
+  "categories": ["menu", "carta", "terceros"]
 }

@@ -7,12 +7,12 @@ export const setRecipes = (payload) => {
   };
 };
 
-/* export const insertVariableCost = (payload) => {
+export const insertRecipe = (payload) => {
   return {
-    type: actionTypes.INSERT_VARIABLE_COST,
+    type: actionTypes.INSERT_RECIPE,
     payload,
   };
-}; */
+};
 
 /* export const modifyVariableCost = (data, costs) => {
   const indexToModify = costs.findIndex((item) => item.id === data.id);
@@ -48,8 +48,11 @@ export const createRecipe = (payload) => {
         },
       });
       const newItem = await res.json();
-      console.log(newItem)
-      //dispatch(insertVariableCost([newItem]));
+      const newRecipe = {
+        ...newItem,
+        VariableCosts: recipeCosts,
+      };
+      dispatch(insertRecipe([newRecipe]));
       return res;
     } catch (err) {
       console.log(err);

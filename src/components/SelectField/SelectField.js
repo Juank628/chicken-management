@@ -66,12 +66,12 @@ export default function SelectField({
   }, [validationErrors, name]);
 
   return (
-    <React.Fragment>
+    <div>
       {showLabel ? (
-        <div>
+        <React.Fragment>
           <label>{label}</label>
           <br />
-        </div>
+        </React.Fragment>
       ) : null}
       <select
         name={name}
@@ -93,6 +93,6 @@ export default function SelectField({
           {error}
         </p>
       ))}
-    </React.Fragment>
+    </div>
   );
 }

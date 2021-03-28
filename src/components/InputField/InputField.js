@@ -67,12 +67,12 @@ export default function InputField({
   }, [validationErrors, name]);
 
   return (
-    <React.Fragment>
+    <div>
       {showLabel ? (
-        <div>
+        <React.Fragment>
           <label>{label}</label>
           <br />
-        </div>
+        </React.Fragment>
       ) : null}
       <input
         type={type}
@@ -93,6 +93,6 @@ export default function InputField({
           {error}
         </p>
       ))}
-    </React.Fragment>
+    </div>
   );
 }

@@ -1,12 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import "./RecipesTable.css";
 import TableTools from "../../TableTools/TableTools";
 
 function RecipesTable(props) {
+  const history = useHistory();
+  
+  const openRecipe = () => {
+    history.push("/recipe");
+  };
+
   return (
     <div className="RecipeTable">
-      <TableTools />
+      <TableTools openAddModal={openRecipe} />
       <table>
         <thead>
           <tr className="table-header">

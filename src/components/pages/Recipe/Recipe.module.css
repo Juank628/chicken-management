@@ -21,12 +21,8 @@
   text-align: center;
 }
 
-.container input {
-  width: 27ch;
-}
-
-.container select {
-  width: 27ch;
+.container input[type="checkbox"] {
+  height: 15px;
 }
 
 .container textarea {
@@ -44,25 +40,33 @@
 
 .instructions {
   grid-column-start: 1;
-  grid-column-end: 6;
+  grid-column-end: 4;
 }
 
-.priceAndFamily {
+.brief {
+  grid-column-start: 4;
+  grid-column-end: 7;
+}
+
+.selectionArea {
+  grid-column-start: 1;
+  grid-column-end: 7;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.checkboxArea {
   display: grid;
   justify-content: center;
   align-content: center;
 }
 
-.metrics {
-  grid-column-start: 6;
-  grid-column-end: 7;
+.lastArea {
+  grid-column-start: 4;
+  grid-column-end: 5;
 }
 
-.btnArea {
-  grid-column-start: 6;
-  grid-column-end: 7;
-}
-
-.btnArea button {
+.lastArea button {
   width: 100%;
 }
