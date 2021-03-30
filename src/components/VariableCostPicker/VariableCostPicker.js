@@ -20,9 +20,9 @@ function VariableCostPicker(props) {
     quantity: 1,
   });
   const [validationErrors, setValidationErrors] = useState({
-    description: true,
-    unitSymbol: true,
-    quantity: true,
+    description: false,
+    unitSymbol: false,
+    quantity: false,
   });
   const isMounted = useRef(false);
 
@@ -57,7 +57,13 @@ function VariableCostPicker(props) {
 
   useEffect(() => {
     if (props.data) {
-      console.log("not new");
+      const { description, unitSymbol, quantity } = props.data;
+      setFieldsData({
+        ...fieldsData,
+        description,
+        unitSymbol,
+        quantity,
+      });
     } else {
       setIsNew(true);
       setIsEdit(true);
@@ -172,7 +178,12 @@ function VariableCostPicker(props) {
         {isEdit ? (
           <React.Fragment>
             <div>
-              <button type="button" className="btn-success" onClick={save}>
+              <button
+                type="button"
+                className="btn-success"
+                disabled={!isFormValid}
+                onClick={save}
+              >
                 Guardar
               </button>
             </div>

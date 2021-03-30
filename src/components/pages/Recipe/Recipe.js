@@ -27,6 +27,7 @@ function Recipe(props) {
   const [totalCost, setTotalCost] = useState(0);
   const [profit, setProfit] = useState(0);
   const [profitPercent, setProfitPercent] = useState(0);
+  const [selectedItem, setSelectedItem] = useState({});
   const [fieldsData, setFieldsData] = useState({
     description: "",
     instructions: "",
@@ -61,7 +62,24 @@ function Recipe(props) {
     setValidationErrors({ ...validationErrors, [name]: value });
   };
 
-  const openModal = (isNew) => (e) => {
+  const findIndexById = useCallback(
+    (id) => {
+      return costsData.findIndex((item) => item.id == id);
+    },
+    [costsData]
+  );
+
+  const openModal = (isNewCost) => (e) => {
+    if (isNewCost) {
+      setSelectedItem(null);
+    } else {
+      const selectedIndex = findIndexById(e.currentTarget.id);
+      setSelectedItem({
+        description: costsData[selectedIndex].description,
+        unitSymbol: costsUnitSymbol[selectedIndex],
+        quantity: costsQuantity[selectedIndex],
+      });
+    }
     setShowModal(true);
   };
 
@@ -71,8 +89,17 @@ function Recipe(props) {
     setCostsQuantity([...costsQuantity, quantity]);
   };
 
-  const updateCost = (costData, costQuantity) => {
-    console.log("update cost:", costData, costQuantity);
+  const updateCost = (costData, costUnitSymbol, costQuantity) => {
+    const indexToUpdate = findIndexById(costData.id);
+    let newCostsData = [...costsData];
+    let newCostsUnitSymbol = [...costsUnitSymbol];
+    let newCostsQuantity = [...costsQuantity];
+    newCostsData[indexToUpdate] = costData;
+    newCostsUnitSymbol[indexToUpdate] = costUnitSymbol;
+    newCostsQuantity[indexToUpdate] = costQuantity;
+    setCostsData(newCostsData);
+    setCostsUnitSymbol(newCostsUnitSymbol);
+    setCostsQuantity(newCostsQuantity);
   };
 
   const save = () => {
@@ -114,6 +141,7 @@ function Recipe(props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    console.log("calculating");
     const newSubtotals = calculateSubtotals(
       units,
       props.variableCosts,
@@ -170,7 +198,7 @@ function Recipe(props) {
           </thead>
           <tbody>
             {costsData.map((cost, index) => (
-              <tr key={cost.id}>
+              <tr key={cost.id} id={cost.id} onClick={openModal(false)}>
                 <td>{cost.id}</td>
                 <td>{cost.description}</td>
                 <td>{costsUnitSymbol[index]}</td>
@@ -275,7 +303,7 @@ function Recipe(props) {
           closeModal={() => setShowModal(false)}
           addCost={addCost}
           updateCost={updateCost}
-          //data={selectedItem}
+          data={selectedItem}
         />
       </Modal>
     </div>
