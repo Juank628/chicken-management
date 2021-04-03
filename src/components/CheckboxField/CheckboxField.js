@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./CheckboxField.module.css";
 
-function CheckboxField({ label = "", onChange, name }) {
+function CheckboxField({ label = "", onChange, name, checked = false }) {
   const onChangeHandler = (e) => {
     onChange(e);
   };
@@ -9,6 +9,7 @@ function CheckboxField({ label = "", onChange, name }) {
     <div>
       <input
         type="checkbox"
+        checked={checked}
         name={name}
         onChange={onChangeHandler}
         className={classes.checkBox}

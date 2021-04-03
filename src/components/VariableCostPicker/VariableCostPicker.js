@@ -7,6 +7,7 @@ import SelectField from "../SelectField/SelectField";
 
 function VariableCostPicker(props) {
   const [isEdit, setIsEdit] = useState(false);
+  const [isAdvanced, setIsAdvanced] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const [filteredCostsNames, setFilteredCostsNames] = useState([]);
@@ -53,6 +54,10 @@ function VariableCostPicker(props) {
       props.updateCost(costData, costUnitSymbol, costQuantity);
     }
     props.closeModal();
+  };
+
+  const remove = () => {
+    props.removeCost();
   };
 
   useEffect(() => {
@@ -122,7 +127,7 @@ function VariableCostPicker(props) {
           <InputField
             label="Buscar"
             name="filterCriteria"
-            disabled={false}
+            disabled={!isEdit}
             value={fieldsData.filterCriteria}
             onChange={onChange}
             onValidation={onValidation}
@@ -132,7 +137,7 @@ function VariableCostPicker(props) {
           <SelectField
             showLabel={false}
             name="description"
-            disabled={false}
+            disabled={!isEdit}
             value={fieldsData.description}
             options={filteredCostsNames}
             size={10}
@@ -146,7 +151,7 @@ function VariableCostPicker(props) {
           <SelectField
             label="Unidad"
             name="unitSymbol"
-            disabled={false}
+            disabled={!isEdit}
             value={fieldsData.unitSymbol}
             options={unitSymbols}
             validations={["isNotEmpty"]}
@@ -160,7 +165,7 @@ function VariableCostPicker(props) {
             type="number"
             label="Cantidad"
             name="quantity"
-            disabled={false}
+            disabled={!isEdit}
             value={fieldsData.quantity}
             min={0}
             validations={["isNumber"]}
@@ -196,6 +201,21 @@ function VariableCostPicker(props) {
                 Cancelar
               </button>
             </div>
+            {!isNew ? (
+              <div className={classes.advancedArea}>
+                <p
+                  className={classes.advancedBtn}
+                  onClick={() => setIsAdvanced(!isAdvanced)}
+                >
+                  opciones avanzadas
+                </p>
+                {isAdvanced ? (
+                  <p className={classes.deleteBtn} onClick={remove}>
+                    Eliminar
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
           </React.Fragment>
         ) : (
           <div className={classes.btnEditArea}>

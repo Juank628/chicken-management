@@ -14,30 +14,30 @@ td {
   padding-bottom: 5px;
 }
 
-.RecipeTable .id {
+.id {
   width: 10%;
 }
 
-.RecipeTable .desc {
+.desc {
   width: 30%;
 }
 
-.RecipeTable .family {
+.family {
   width: 10%;
 }
 
-.RecipeTable .cost {
+.cost {
   width: 10%;
 }
 
-.RecipeTable .price {
+.price {
   width: 10%;
 }
 
-.RecipeTable .profit-amount {
+.profitAmount {
   width: 10%;
 }
 
-.RecipeTable .profit-percent {
+.profitPercent {
   width: 10%;
 }

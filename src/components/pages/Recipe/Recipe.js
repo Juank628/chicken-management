@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 import classes from "./Recipe.module.css";
+import { connect } from "react-redux";
 import * as actionCreators from "../../../store/actions";
+import { useHistory } from "react-router-dom";
 import { units } from "../../../config/units.json";
 import { families, categories } from "../../../config/recipes.json";
 import { calculateSubtotals } from "../../../utilities/calculation";
@@ -20,6 +20,7 @@ function Recipe(props) {
   const [isNew, setIsNew] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [costIdToUpdate, setCostIdToUpdate] = useState(0);
   const [costsData, setCostsData] = useState([]);
   const [costsUnitSymbol, setCostsUnitSymbol] = useState([]);
   const [costsQuantity, setCostsQuantity] = useState([]);
@@ -79,6 +80,7 @@ function Recipe(props) {
         unitSymbol: costsUnitSymbol[selectedIndex],
         quantity: costsQuantity[selectedIndex],
       });
+      setCostIdToUpdate(e.currentTarget.id);
     }
     setShowModal(true);
   };
@@ -90,13 +92,26 @@ function Recipe(props) {
   };
 
   const updateCost = (costData, costUnitSymbol, costQuantity) => {
-    const indexToUpdate = findIndexById(costData.id);
+    const indexToUpdate = findIndexById(costIdToUpdate);
     let newCostsData = [...costsData];
     let newCostsUnitSymbol = [...costsUnitSymbol];
     let newCostsQuantity = [...costsQuantity];
     newCostsData[indexToUpdate] = costData;
     newCostsUnitSymbol[indexToUpdate] = costUnitSymbol;
     newCostsQuantity[indexToUpdate] = costQuantity;
+    setCostsData(newCostsData);
+    setCostsUnitSymbol(newCostsUnitSymbol);
+    setCostsQuantity(newCostsQuantity);
+  };
+
+  const removeCost = () => {
+    const indexToRemove = findIndexById(costIdToUpdate);
+    let newCostsData = [...costsData];
+    let newCostsUnitSymbol = [...costsUnitSymbol];
+    let newCostsQuantity = [...costsQuantity];
+    newCostsData.splice(indexToRemove, 1);
+    newCostsUnitSymbol.splice(indexToRemove, 1);
+    newCostsQuantity.splice(indexToRemove, 1);
     setCostsData(newCostsData);
     setCostsUnitSymbol(newCostsUnitSymbol);
     setCostsQuantity(newCostsQuantity);
@@ -126,9 +141,8 @@ function Recipe(props) {
   };
 
   useEffect(() => {
-    if (props.data) {
-      setFieldsData({ ...props.data });
-    } else {
+    const { id } = props.match.params;
+    if (id === "new") {
       setIsEdit(true);
       setIsNew(true);
       setValidationErrors({
@@ -137,11 +151,14 @@ function Recipe(props) {
         family: true,
         price: true,
       });
+    } else {
+      const recipe = props.recipes.find((item) => item.id == id);
+      console.log(recipe);
+      setFieldsData({ ...recipe });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    console.log("calculating");
     const newSubtotals = calculateSubtotals(
       units,
       props.variableCosts,
@@ -214,6 +231,7 @@ function Recipe(props) {
             <br />
             <textarea
               name="instructions"
+              value={fieldsData.instructions}
               disabled={!isEdit}
               cols="30"
               rows="10"
@@ -225,6 +243,7 @@ function Recipe(props) {
             <br />
             <textarea
               name="brief"
+              value={fieldsData.brief}
               disabled={!isEdit}
               cols="30"
               rows="10"
@@ -267,12 +286,14 @@ function Recipe(props) {
             <div className={classes.checkboxArea}>
               <CheckboxField
                 label="eShop"
+                checked={fieldsData.eShop}
                 name="eShop"
                 disabled={!isEdit}
                 onChange={onChange}
               />
               <CheckboxField
                 label="Oferta"
+                checked={fieldsData.sale}
                 name="sale"
                 disabled={!isEdit}
                 onChange={onChange}
@@ -303,6 +324,7 @@ function Recipe(props) {
           closeModal={() => setShowModal(false)}
           addCost={addCost}
           updateCost={updateCost}
+          removeCost={removeCost}
           data={selectedItem}
         />
       </Modal>
@@ -313,6 +335,7 @@ function Recipe(props) {
 const mapStateToProps = (state) => {
   return {
     variableCosts: state.variableCostReducer.costs,
+    recipes: state.recipeReducer.recipes,
   };
 };
 

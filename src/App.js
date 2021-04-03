@@ -14,7 +14,7 @@ function App() {
         <NavBar />
         <Route path="/variable-costs" exact component={VariableCostTable} />
         <Route path="/recipes-table" exact component={RecipesTable} />
-        <Route path="/recipe" exact component={Recipe} />
+        <Route path="/recipe/:id?" exact component={Recipe} />
       </BrowserRouter>
     </div>
   );

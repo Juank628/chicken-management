@@ -41,3 +41,19 @@
 .brief p {
   text-align: center;
 }
+
+.advancedArea {
+  grid-column-start: 2;
+  text-align: end;
+  font-size: 0.8rem;
+}
+
+.advancedBtn {
+  color: var(--info);
+  cursor: pointer;
+}
+
+.deleteBtn {
+  color: var(--danger);
+  cursor: pointer;
+}

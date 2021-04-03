@@ -1,34 +1,35 @@
 import React from "react";
+import classes from "./RecipesTable.module.css";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import "./RecipesTable.css";
 import TableTools from "../../TableTools/TableTools";
 
 function RecipesTable(props) {
   const history = useHistory();
-  
-  const openRecipe = () => {
-    history.push("/recipe");
+
+  const openRecipe = (e) => {
+    const recipeId = e.currentTarget.id || "new";
+    history.push(`/recipe/${recipeId}`);
   };
 
   return (
-    <div className="RecipeTable">
+    <div className={classes.RecipeTable}>
       <TableTools openAddModal={openRecipe} />
       <table>
         <thead>
           <tr className="table-header">
-            <th className="id">id</th>
-            <th className="desc">Descripcion</th>
-            <th className="family">Familia</th>
-            <th className="cost">Costo</th>
-            <th className="price">Precio</th>
-            <th className="profit-amount">Ganancia S/</th>
-            <th className="profit-percent">Ganancia %</th>
+            <th className={classes.id}>id</th>
+            <th className={classes.desc}>Descripcion</th>
+            <th className={classes.family}>Familia</th>
+            <th className={classes.cost}>Costo</th>
+            <th className={classes.price}>Precio</th>
+            <th className={classes.profitAmount}>Ganancia S/</th>
+            <th className={classes.profitPercent}>Ganancia %</th>
           </tr>
         </thead>
         <tbody>
           {props.recipes.map((recipe) => (
-            <tr key={recipe.id}>
+            <tr key={recipe.id} id={recipe.id} onClick={openRecipe}>
               <td>{recipe.id}</td>
               <td>{recipe.description}</td>
               <td>{recipe.family}</td>
