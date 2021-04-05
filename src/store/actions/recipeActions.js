@@ -14,14 +14,14 @@ export const insertRecipe = (payload) => {
   };
 };
 
-/* export const modifyVariableCost = (data, costs) => {
-  const indexToModify = costs.findIndex((item) => item.id === data.id);
-  costs[indexToModify] = data;
+export const modifyRecipe = (data, recipes) => {
+  const indexToModify = recipes.findIndex((item) => item.id === data.id);
+  recipes[indexToModify] = data;
   return {
-    type: actionTypes.SET_VARIABLE_COSTS,
-    payload: costs,
+    type: actionTypes.SET_RECIPES,
+    payload: recipes,
   };
-}; */
+};
 
 /* export const removeVariableCost = (id, costs) => {
   const indexToDelete = costs.findIndex((item) => item.id === id);
@@ -72,24 +72,30 @@ export const readRecipes = () => {
   };
 };
 
-/* export const updateVariableCost = (payload) => {
+export const updateRecipe = (payload) => {
   return async (dispatch) => {
+    let { recipeData, recipeCosts, recipes } = payload;
     try {
-      const res = await fetch("http://localhost:4000/variable-costs/update", {
-        method: "POST",
-        body: JSON.stringify({ ...payload.detail }),
+      const res = await fetch("http://localhost:4000/recipes/update", {
+        method: "PUT",
+        body: JSON.stringify({ recipeData, recipeCosts }),
         headers: {
           "Content-Type": "application/json",
         },
       });
-      const data = await res.json();
-      dispatch(modifyVariableCost(data, payload.costs));
+      delete recipeData.createdAt
+      delete recipeData.updatedAt
+      const data = {
+        ...recipeData,
+        VariableCosts: []
+      }    
+      dispatch(modifyRecipe(data, recipes));
       return res;
     } catch (err) {
       console.log(err);
     }
   };
-}; */
+};
 
 /* export const deleteVariableCost = (payload) => {
   return async (dispatch) => {

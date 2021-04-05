@@ -136,8 +136,16 @@ function Recipe(props) {
     }
   };
 
-  const _update = () => {
-    console.log("update");
+  const _update = async () => {
+    const res = await props.actUpdateRecipe({
+      recipeData: fieldsData,
+      recipeCosts: { costsData, costsUnitSymbol, costsQuantity },
+      recipes: props.recipes,
+    });
+    if (res.status >= 200 && res.status < 300) {
+      setIsSaving(false);
+      history.push("/recipes-table");
+    }
   };
 
   useEffect(() => {
@@ -153,8 +161,30 @@ function Recipe(props) {
       });
     } else {
       const recipe = props.recipes.find((item) => item.id == id);
-      console.log(recipe);
-      setFieldsData({ ...recipe });
+
+      let newFieldsData = { ...recipe };
+      delete newFieldsData.VariableCosts;
+      setFieldsData({ ...newFieldsData });
+
+      let newCostsData = [];
+      let newCostsUnitSymbol = [];
+      let newCostsQuantity = [];
+      recipe.VariableCosts.forEach((item) => {
+        newCostsUnitSymbol.push(item.RecipeCost.CostUnit);
+        newCostsQuantity.push(item.RecipeCost.CostQuantity);
+        newCostsData.push({
+          id: item.id,
+          description: item.description,
+          unitType: item.unitType,
+          unitSymbol: item.unitSymbol,
+          cost: item.cost,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        });
+        setCostsUnitSymbol([...newCostsUnitSymbol]);
+        setCostsQuantity([...newCostsQuantity]);
+        setCostsData([...newCostsData]);
+      });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -343,6 +373,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actCreateRecipe: (payload) =>
       dispatch(actionCreators.createRecipe(payload)),
+    actUpdateRecipe: (payload) =>
+      dispatch(actionCreators.updateRecipe(payload)),
   };
 };
 

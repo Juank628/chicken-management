@@ -9,5 +9,6 @@ export {
 } from "./variableCostActions";
 export {
   createRecipe,
-  readRecipes
+  readRecipes,
+  updateRecipe
 } from "./recipeActions"
