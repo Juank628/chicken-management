@@ -23,14 +23,14 @@ export const modifyRecipe = (data, recipes) => {
   };
 };
 
-/* export const removeVariableCost = (id, costs) => {
-  const indexToDelete = costs.findIndex((item) => item.id === id);
-  costs.splice(indexToDelete, 1);
+export const removeRecipe = (id, recipes) => {
+  const indexToDelete = recipes.findIndex((item) => item.id === id);
+  recipes.splice(indexToDelete, 1);
   return {
-    type: actionTypes.SET_VARIABLE_COSTS,
-    payload: costs,
+    type: actionTypes.SET_RECIPES,
+    payload: recipes,
   };
-}; */
+};
 
 /********************database actions************************/
 
@@ -92,21 +92,21 @@ export const updateRecipe = (payload) => {
   };
 };
 
-/* export const deleteVariableCost = (payload) => {
+export const deleteRecipe = (payload) => {
   return async (dispatch) => {
     try {
-      const res = await fetch("http://localhost:4000/variable-costs/delete", {
+      const res = await fetch("http://localhost:4000/recipes/delete", {
         method: "DELETE",
         body: JSON.stringify({ id: payload.id }),
         headers: {
           "Content-Type": "application/json",
         },
       });
-      dispatch(removeVariableCost(payload.id, payload.costs));
+      dispatch(removeRecipe(payload.id, payload.recipes));
       return res;
     } catch (err) {
       console.log(err);
     }
   };
 };
- */
+

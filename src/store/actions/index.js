@@ -10,5 +10,6 @@ export {
 export {
   createRecipe,
   readRecipes,
-  updateRecipe
-} from "./recipeActions"
+  updateRecipe,
+  deleteRecipe,
+} from "./recipeActions";

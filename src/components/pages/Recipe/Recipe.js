@@ -18,8 +18,10 @@ function Recipe(props) {
   const [showModal, setShowModal] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
   const [isNew, setIsNew] = useState(false);
+  const [isAdvanced, setIsAdvanced] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [costIdToUpdate, setCostIdToUpdate] = useState(0);
   const [costsData, setCostsData] = useState([]);
   const [costsUnitSymbol, setCostsUnitSymbol] = useState([]);
@@ -140,12 +142,27 @@ function Recipe(props) {
     const res = await props.actUpdateRecipe({
       recipeData: fieldsData,
       recipeCosts: { costsData, costsUnitSymbol, costsQuantity },
-      recipes: props.recipes
+      recipes: props.recipes,
     });
 
     if (res.status >= 200 && res.status < 300) {
       setIsSaving(false);
       history.push("/recipes-table");
+    }
+  };
+
+  const _delete = async () => {
+    if (!isDeleting) {
+      setIsDeleting(true);
+      const res = await props.actDeleteRecipe({
+        id: fieldsData.id,
+        recipes: props.recipes,
+      });
+      if (res.status >= 200 && res.status < 300) {
+        history.push("/recipes-table");
+      } else {
+        setIsDeleting(false);
+      }
     }
   };
 
@@ -345,6 +362,22 @@ function Recipe(props) {
                   Guardar
                 </button>
               </div>
+
+              {!isNew ? (
+                <div>
+                  <p
+                    className={classes.advancedBtn}
+                    onClick={() => setIsAdvanced(!isAdvanced)}
+                  >
+                    opciones avanzadas
+                  </p>
+                  {isAdvanced ? (
+                    <p className={classes.deleteBtn} onClick={_delete}>
+                      Eliminar
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -376,6 +409,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.createRecipe(payload)),
     actUpdateRecipe: (payload) =>
       dispatch(actionCreators.updateRecipe(payload)),
+    actDeleteRecipe: (payload) =>
+      dispatch(actionCreators.deleteRecipe(payload)),
   };
 };
 

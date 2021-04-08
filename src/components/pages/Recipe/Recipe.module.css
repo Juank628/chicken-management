@@ -70,3 +70,17 @@
 .lastArea button {
   width: 100%;
 }
+
+.advancedBtn {
+  color: var(--info);
+  cursor: pointer;
+  text-align: end;
+  font-size: 0.8rem;
+}
+
+.deleteBtn {
+  color: var(--danger);
+  cursor: pointer;
+  text-align: end;
+  font-size: 0.8rem;
+}
