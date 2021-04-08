@@ -140,8 +140,9 @@ function Recipe(props) {
     const res = await props.actUpdateRecipe({
       recipeData: fieldsData,
       recipeCosts: { costsData, costsUnitSymbol, costsQuantity },
-      recipes: props.recipes,
+      recipes: props.recipes
     });
+
     if (res.status >= 200 && res.status < 300) {
       setIsSaving(false);
       history.push("/recipes-table");

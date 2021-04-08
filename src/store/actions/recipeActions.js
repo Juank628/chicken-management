@@ -83,13 +83,8 @@ export const updateRecipe = (payload) => {
           "Content-Type": "application/json",
         },
       });
-      delete recipeData.createdAt
-      delete recipeData.updatedAt
-      const data = {
-        ...recipeData,
-        VariableCosts: []
-      }    
-      dispatch(modifyRecipe(data, recipes));
+      const updatedItem = await res.json();
+      dispatch(modifyRecipe(updatedItem, recipes));
       return res;
     } catch (err) {
       console.log(err);
