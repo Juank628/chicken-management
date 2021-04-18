@@ -86,21 +86,21 @@ function VariableCostPicker(props) {
   }, []);
 
   useEffect(() => {
-    if (isMounted.current) {
-      const regexp = new RegExp(fieldsData.filterCriteria, "i");
-      let filteredValues = noFilteredCostsNames.filter((item) =>
-        regexp.test(item)
-      );
-      setFilteredCostsNames(filteredValues);
-    }
-    isMounted.current = true;
-  }, [fieldsData.filterCriteria]);
-
-  useEffect(() => {
     const selectedItem = props.variableCosts.find(
       (item) => item.description === fieldsData.description
     );
     setSelectedCost(selectedItem);
+
+    if (isMounted.current) {
+      setFieldsData({
+        ...fieldsData,
+        unitSymbol: "",
+      });
+      setValidationErrors({
+        ...validationErrors,
+        unitSymbol: true,
+      });
+    }
   }, [fieldsData.description]);
 
   useEffect(() => {
@@ -119,6 +119,17 @@ function VariableCostPicker(props) {
     const { description, unitSymbol, quantity } = validationErrors;
     setIsFormValid(!(description || unitSymbol || quantity));
   }, [validationErrors]);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const regexp = new RegExp(fieldsData.filterCriteria, "i");
+      let filteredValues = noFilteredCostsNames.filter((item) =>
+        regexp.test(item)
+      );
+      setFilteredCostsNames(filteredValues);
+    }
+    isMounted.current = true;
+  }, [fieldsData.filterCriteria]);
 
   return (
     <div className={classes.container}>

@@ -48,11 +48,7 @@ export const createRecipe = (payload) => {
         },
       });
       const newItem = await res.json();
-      const newRecipe = {
-        ...newItem,
-        VariableCosts: recipeCosts,
-      };
-      dispatch(insertRecipe([newRecipe]));
+      dispatch(insertRecipe([newItem]));
       return res;
     } catch (err) {
       console.log(err);

@@ -3,7 +3,6 @@ import classes from "./Recipe.module.css";
 import { connect } from "react-redux";
 import * as actionCreators from "../../../store/actions";
 import { useHistory } from "react-router-dom";
-import { units } from "../../../config/units.json";
 import { families, categories } from "../../../config/recipes.json";
 import { calculateSubtotals } from "../../../utilities/calculation";
 import Modal from "../../Modal/Modal";
@@ -87,14 +86,32 @@ function Recipe(props) {
     setShowModal(true);
   };
 
+  const checkIfExist = (costDescription) => {
+    const index = costsData.findIndex(
+      (item) => item.description === costDescription
+    );
+    if (index === -1) return false;
+    return true;
+  };
+
   const addCost = (data, unitSymbol, quantity) => {
-    setCostsData([...costsData, data]);
-    setCostsUnitSymbol([...costsUnitSymbol, unitSymbol]);
-    setCostsQuantity([...costsQuantity, quantity]);
+    if (checkIfExist(data.description)) {
+      alert("El ingrediente ya existe");
+    } else {
+      setCostsData([...costsData, data]);
+      setCostsUnitSymbol([...costsUnitSymbol, unitSymbol]);
+      setCostsQuantity([...costsQuantity, quantity]);
+    }
   };
 
   const updateCost = (costData, costUnitSymbol, costQuantity) => {
     const indexToUpdate = findIndexById(costIdToUpdate);
+    if (costsData[indexToUpdate].description !== costData.description) {
+      if (checkIfExist(costData.description)) {
+        alert("El ingrediente ya existe");
+        return;
+      }
+    }
     let newCostsData = [...costsData];
     let newCostsUnitSymbol = [...costsUnitSymbol];
     let newCostsQuantity = [...costsQuantity];
@@ -180,6 +197,11 @@ function Recipe(props) {
     } else {
       const recipe = props.recipes.find((item) => item.id == id);
 
+      if(recipe === undefined) {
+        history.push("/recipes-table")
+        return
+      }
+
       let newFieldsData = { ...recipe };
       delete newFieldsData.VariableCosts;
       setFieldsData({ ...newFieldsData });
@@ -208,7 +230,6 @@ function Recipe(props) {
 
   useEffect(() => {
     const newSubtotals = calculateSubtotals(
-      units,
       props.variableCosts,
       costsData,
       costsUnitSymbol,
@@ -223,7 +244,7 @@ function Recipe(props) {
   }, [costsData, costsUnitSymbol, costsQuantity]);
 
   useEffect(() => {
-    setProfit(fieldsData.price - totalCost);
+    setProfit((fieldsData.price - totalCost).toFixed(2));
     setProfitPercent(
       (((fieldsData.price - totalCost) * 100) / fieldsData.price).toFixed(2)
     );
