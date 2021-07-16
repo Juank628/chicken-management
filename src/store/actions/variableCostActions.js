@@ -96,7 +96,9 @@ export const deleteVariableCost = (payload) => {
           "Content-Type": "application/json",
         },
       });
-      dispatch(removeVariableCost(payload.id, payload.costs));
+      if (res.status >= 200 && res.status < 300) {
+        dispatch(removeVariableCost(payload.id, payload.costs));
+      }
       return res;
     } catch (err) {
       console.log(err);

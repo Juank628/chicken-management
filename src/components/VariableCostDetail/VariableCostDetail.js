@@ -90,24 +90,36 @@ function VariableCostDetail(props) {
       });
       if (res.status >= 200 && res.status < 300) {
         props.closeModal();
-      } else {
-        setIsDeleting(false);
       }
+      if (res.status === 409) {
+        const data = await res.json();
+        const recipesCount = data.recipes.length;
+        alert(
+          `El ingrediente está siendo utilizado en ${recipesCount} recetas`
+        );
+      }
+      setIsDeleting(false);
     }
   };
 
   useEffect(() => {
-    if (props.data) {
-      setDetail({ ...props.data });
-    } else {
-      setIsEdit(true);
-      setIsNew(true);
-      setValidationErrors({
-        description: true,
-        unitType: true,
-        unitSymbol: true,
-      });
+    let isCanceled = false;
+    if (!isCanceled) {
+      if (props.data) {
+        setDetail({ ...props.data });
+      } else {
+        setIsEdit(true);
+        setIsNew(true);
+        setValidationErrors({
+          description: true,
+          unitType: true,
+          unitSymbol: true,
+        });
+      }
     }
+    return () => {
+      isCanceled = true; //prevent React state update on an unmounted component
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

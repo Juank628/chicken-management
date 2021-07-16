@@ -76,7 +76,7 @@ function Recipe(props) {
       setSelectedItem(null);
     } else {
       const selectedIndex = findIndexById(e.currentTarget.id);
-      setSelectedItem({
+      setSelectedItem({ 
         description: costsData[selectedIndex].description,
         unitSymbol: costsUnitSymbol[selectedIndex],
         quantity: costsQuantity[selectedIndex],
