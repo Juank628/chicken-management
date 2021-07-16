@@ -28,10 +28,22 @@ function VariableCostPicker(props) {
   const isMounted = useRef(false);
 
   const onChange = (e) => {
-    setFieldsData({
-      ...fieldsData,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "description") {
+      setFieldsData({
+        ...fieldsData,
+        unitSymbol: "",
+        description: e.target.value,
+      });
+      setValidationErrors({
+        ...validationErrors,
+        unitSymbol: true,
+      });
+    } else {
+      setFieldsData({
+        ...fieldsData,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const onValidation = (name, value) => {
@@ -90,17 +102,6 @@ function VariableCostPicker(props) {
       (item) => item.description === fieldsData.description
     );
     setSelectedCost(selectedItem);
-
-    if (isMounted.current) {
-      setFieldsData({
-        ...fieldsData,
-        unitSymbol: "",
-      });
-      setValidationErrors({
-        ...validationErrors,
-        unitSymbol: true,
-      });
-    }
   }, [fieldsData.description]);
 
   useEffect(() => {
