@@ -45,25 +45,3 @@
   color: black;
   text-decoration: none;
 }
-
-/*Media queries*/
-
-@media (max-width: 540px) {
-  .navbar-logo {
-    display: none;
-  }
-
-  .navbar-list-container {
-    display: none;
-  }
-}
-
-@media (min-width: 541px) {
-  .navbar-menu-btn {
-    display: none;
-  }
-
-  .full-page-menu {
-    display: none;
-  }
-}

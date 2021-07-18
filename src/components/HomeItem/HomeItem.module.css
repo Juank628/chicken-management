@@ -1,0 +1,25 @@
+.container {
+  height: 120px;
+  background-color: var(--surface-color);
+  border-radius: 20px;
+  text-align: center;
+  padding: 1px;
+
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
+}
+
+.container img {
+  max-width: 50%;
+  min-width: 50%;
+}
+
+.container h2 {
+  font-size: 1rem;
+}
+
+.link {
+    text-decoration: none;
+    color: var(--on-surface);
+}

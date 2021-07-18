@@ -2,6 +2,7 @@
   --primary-color: #1e88e5;
   --primary-color-light: #6ab7ff;
   --primary-color-dark: #005cb2;
+  --surface-color: #EEEEEE;
   --success: #28a745;
   --danger: #dc3545;
   --info: #007bff;
@@ -10,6 +11,7 @@
   --on-danger: #fff;
   --on-info: #fff;
   --on-disabled: #495057;
+  --on-surface: black;
 }
 
 /*******forms*******/
