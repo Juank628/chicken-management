@@ -1,0 +1,31 @@
+.OrdersTable {
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
+.OrdersTable table {
+  margin: auto;
+  width: 100%;
+}
+
+.OrdersTable th,
+td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.id {
+  width: 25%;
+}
+
+.table {
+  width: 25%;
+}
+
+.status {
+  width: 25%;
+}
+
+.price {
+  width: 25%;
+}

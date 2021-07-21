@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 import chicken_icon from "../../img/chicken_icon.svg";
-import menu_icon from "../../img/menu_icon.svg";
 
 export default function NavBar() {
   return (
