@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as actionCreators from "../../../store/actions";
 import classes from "./OrdersTable.module.css";
 import TableTools from "../../TableTools/TableTools";
+import OrderStatusBar from "../../OrderStatusBar/OrderStatusBar"
 
 function OrdersTable(props) {
   const openOrder = (e) => {
@@ -22,7 +23,7 @@ function OrdersTable(props) {
           <tr className="table-header">
             <th className={classes.id}>id</th>
             <th className={classes.table}>Mesa</th>
-            <th className={classes.price}>Precio</th>
+            <th className={classes.price}>Precio (S/)</th>
             <th className={classes.status}>Estado</th>
           </tr>
         </thead>
@@ -32,7 +33,7 @@ function OrdersTable(props) {
               <td>{order.id}</td>
               <td>{order.table}</td>
               <td>{order.price}</td>
-              <td>{order.status}</td>
+              <td><OrderStatusBar percent={order.status} /></td>
             </tr>
           ))}
         </tbody>

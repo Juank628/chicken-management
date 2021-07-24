@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 import chicken_icon from "../../img/chicken_icon.svg";
