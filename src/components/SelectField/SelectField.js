@@ -8,6 +8,7 @@ export default function SelectField({
   name,
   disabled = false,
   options = [],
+  optionValues,
   size = 1,
   min = -Infinity,
   max = Infinity,
@@ -83,7 +84,10 @@ export default function SelectField({
       >
         <option value="">seleccione...</option>
         {options.map((option, index) => (
-          <option key={index} value={option}>
+          <option
+            key={index}
+            value={optionValues ? optionValues[index] : options[index]}
+          >
             {option}
           </option>
         ))}

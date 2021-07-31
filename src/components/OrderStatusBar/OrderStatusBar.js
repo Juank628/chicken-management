@@ -9,20 +9,20 @@ export default function OrderStatusBar(props) {
 
   useEffect(() => {
     setPercentString(`${percent}%`);
-    switch (props.status) {
+    switch (props.percent) {
       case 0:
         setDescription("Anulado");
         break;
-      case 50:
+      case 25:
         setDescription("Cocina");
         break;
-      case 55:
+      case 50:
         setDescription("En camino");
         break;
-      case 60:
+      case 75:
         setDescription("Entregado");
         break;
-      case 65:
+      case 100:
         setDescription("Pagado");
         break;
       default:
