@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 
 export default function OrderStatusBar(props) {
   const [description, setDescription] = useState("");
-  const [percentString, setPercentString] = useState("0%")
-  const {percent} = props 
-
+  const [percentString, setPercentString] = useState("0%");
+  const { percent } = props;
+  
   useEffect(() => {
     setPercentString(`${percent}%`);
-    switch (props.percent) {
+    switch (percent) {
       case 0:
         setDescription("Anulado");
         break;
@@ -26,14 +26,16 @@ export default function OrderStatusBar(props) {
         setDescription("Pagado");
         break;
       default:
+        setDescription("indefinido");
+        break;
     }
-  }, []);
+  }, [props]);
 
   return (
     <div className={classes.OrderStatusBar}>
       <p>{description}</p>
       <div className={classes.bar_container}>
-        <div className={classes.bar} style={{width: percentString}}></div>
+        <div className={classes.bar} style={{ width: percentString }}></div>
         <div className={classes.scale}>
           <div>25</div>
           <div>50</div>

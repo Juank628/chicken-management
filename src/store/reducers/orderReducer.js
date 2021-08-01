@@ -11,6 +11,11 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         orders: [...action.payload],
       };
+    case actionTypes.INSERT_ORDER:
+      return {
+        ...state,
+        orders: [...state.orders, action.payload],
+      };
     default:
       return state;
   }

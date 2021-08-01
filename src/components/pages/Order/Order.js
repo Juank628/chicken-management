@@ -1,11 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import * as actionCreators from "./../../../store/actions";
+import {useHistory} from "react-router"
 import classes from "./Order.module.css";
 import TableTools from "../../TableTools/TableTools";
 import InputField from "../../InputField/InputField";
 import SelectField from "../../SelectField/SelectField";
 import OrderStatusBar from "../../OrderStatusBar/OrderStatusBar";
 
-export default function Order() {
+function Order(props) {
+  const history = useHistory()
   const [fieldsData, setFieldsData] = useState({
     name: "",
     phone: "",
@@ -13,7 +17,14 @@ export default function Order() {
     comments: "",
     table: 0,
     discount: 0,
-    percent: 75,
+    percent: 50,
+    recipesDesc: [],
+    recipesQuantities: [],
+    recipesPrices: [],
+    recipesCosts: [],
+    totalPrice: 0,
+    totalCost: 0,
+    totalProfit: 0,
   });
   const [validationErrors, setValidationErrors] = useState({
     name: false,
@@ -21,7 +32,7 @@ export default function Order() {
     address: false,
     table: false,
     discount: false,
-    orderStatus: false,
+    percent: false,
   });
   const statusOptions = [
     "Anulado",
@@ -31,12 +42,20 @@ export default function Order() {
     "Pagado",
   ];
   const statusValues = [0, 25, 50, 75, 100];
+  const [isNew, setIsNew] = useState(true);
 
   const onChange = (e) => {
-    setFieldsData({
-      ...fieldsData,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "percent") {
+      setFieldsData({
+        ...fieldsData,
+        [e.target.name]: parseInt(e.target.value),
+      });
+    } else {
+      setFieldsData({
+        ...fieldsData,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const onValidation = (name, value) => {
@@ -44,6 +63,30 @@ export default function Order() {
       ...validationErrors,
       [name]: value,
     });
+  };
+
+  const save = () => {
+    isNew ? _create() : _update();
+  };
+
+  const _create = async() => {
+    const adaptedFieldsData = adaptFieldsData();
+    const res = await props.actCreateOrder(adaptedFieldsData);
+    if(res.status >= 200 && res.status < 300){
+      history.push("/orders-table")
+    }
+  };
+
+  const _update = () => {};
+
+  const adaptFieldsData = () => {
+    return {
+      ...fieldsData,
+      recipesDesc: fieldsData.recipesDesc.join(","),
+      recipesQuantities: fieldsData.recipesQuantities.join(","),
+      recipesPrices: fieldsData.recipesPrices.join(","),
+      recipesCosts: fieldsData.recipesCosts.join(","),
+    };
   };
 
   return (
@@ -134,9 +177,9 @@ export default function Order() {
           />
           <SelectField
             label="Estado"
-            name="status"
+            name="percent"
             disabled={false}
-            value={fieldsData.orderStatus}
+            value={fieldsData.percent}
             optionValues={statusValues}
             options={statusOptions}
             validations={["isNotEmpty"]}
@@ -154,11 +197,7 @@ export default function Order() {
             <p>Total a pagar: S/{56.8}</p>
           </div>
           <div>
-            <button
-              className="btn-success"
-              onClick={() => alert("click")}
-              disabled={false}
-            >
+            <button className="btn-success" onClick={save} disabled={false}>
               Guardar
             </button>
           </div>
@@ -167,3 +206,15 @@ export default function Order() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actCreateOrder: (payload) => dispatch(actionCreators.createOrder(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Order);

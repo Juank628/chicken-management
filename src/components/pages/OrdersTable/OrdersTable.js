@@ -1,14 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router";
 import * as actionCreators from "../../../store/actions";
 import classes from "./OrdersTable.module.css";
 import TableTools from "../../TableTools/TableTools";
-import OrderStatusBar from "../../OrderStatusBar/OrderStatusBar"
+import OrderStatusBar from "../../OrderStatusBar/OrderStatusBar";
 
 function OrdersTable(props) {
+  const history = useHistory();
+
   const openOrder = (e) => {
-    alert("order");
+    history.push("/order");
   };
 
   useEffect(() => {
@@ -33,7 +36,9 @@ function OrdersTable(props) {
               <td>{order.id}</td>
               <td>{order.table}</td>
               <td>{order.price}</td>
-              <td><OrderStatusBar percent={order.status} /></td>
+              <td>
+                <OrderStatusBar percent={order.percent} />
+              </td>
             </tr>
           ))}
         </tbody>
