@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "./../../../store/actions";
-import {useHistory} from "react-router"
+import { useHistory } from "react-router";
 import classes from "./Order.module.css";
+import Modal from "../../Modal/Modal";
 import TableTools from "../../TableTools/TableTools";
 import InputField from "../../InputField/InputField";
 import SelectField from "../../SelectField/SelectField";
 import OrderStatusBar from "../../OrderStatusBar/OrderStatusBar";
+import RecipePicker from "../../RecipePicker/RecipePicker";
 
 function Order(props) {
-  const history = useHistory()
+  const history = useHistory();
   const [fieldsData, setFieldsData] = useState({
     name: "",
     phone: "",
@@ -26,6 +28,7 @@ function Order(props) {
     totalCost: 0,
     totalProfit: 0,
   });
+  const [recipeId, setRecipeId] = useState(0);
   const [validationErrors, setValidationErrors] = useState({
     name: false,
     phone: false,
@@ -43,6 +46,11 @@ function Order(props) {
   ];
   const statusValues = [0, 25, 50, 75, 100];
   const [isNew, setIsNew] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
 
   const onChange = (e) => {
     if (e.target.name === "percent") {
@@ -69,11 +77,11 @@ function Order(props) {
     isNew ? _create() : _update();
   };
 
-  const _create = async() => {
+  const _create = async () => {
     const adaptedFieldsData = adaptFieldsData();
     const res = await props.actCreateOrder(adaptedFieldsData);
-    if(res.status >= 200 && res.status < 300){
-      history.push("/orders-table")
+    if (res.status >= 200 && res.status < 300) {
+      history.push("/orders-table");
     }
   };
 
@@ -89,11 +97,20 @@ function Order(props) {
     };
   };
 
+  useEffect(() => {
+    const { id } = props.match.params;
+    setRecipeId(id)
+    
+    const selectedOrder = props.orders.find(order => order.id = id)
+    setFieldsData(selectedOrder)
+
+  }, []);
+
   return (
     <div className={classes.container}>
       <div className={classes.general_info}>Order: 4893</div>
 
-      <TableTools openAddModal={() => false} />
+      <TableTools openAddModal={openModal} />
       <table>
         <thead>
           <tr className="table-header">
@@ -203,12 +220,17 @@ function Order(props) {
           </div>
         </div>
       </div>
+      <Modal show={showModal} closeModal={() => setShowModal(false)}>
+        <RecipePicker />
+      </Modal>
     </div>
   );
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    orders: state.orderReducer.orders,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

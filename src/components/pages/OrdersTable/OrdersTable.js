@@ -11,7 +11,7 @@ function OrdersTable(props) {
   const history = useHistory();
 
   const openOrder = (e) => {
-    history.push("/order");
+    history.push(`/order/${e.currentTarget.id}`);
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function OrdersTable(props) {
             <tr key={order.id} id={order.id} onClick={openOrder}>
               <td>{order.id}</td>
               <td>{order.table}</td>
-              <td>{order.price}</td>
+              <td>{order.totalPrice}</td>
               <td>
                 <OrderStatusBar percent={order.percent} />
               </td>
