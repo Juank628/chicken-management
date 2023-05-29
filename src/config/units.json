@@ -1,5 +1,5 @@
 {
-  "types": ["peso", "volumen"],
+  "types": ["peso", "volumen", "unidad"],
   "units": [
     {
       "type": "peso",
@@ -30,6 +30,11 @@
       "type": "volumen",
       "symbol": "gl",
       "factor": 3.78541
+    },
+    {
+      "type": "unidad",
+      "symbol": "und",
+      "factor": 1
     }
   ]
 }

@@ -11,7 +11,8 @@ function OrdersTable(props) {
   const history = useHistory();
 
   const openOrder = (e) => {
-    history.push(`/order/${e.currentTarget.id}`);
+    const orderId = e.currentTarget.id || "new"
+    history.push(`/order/${orderId}`);
   };
 
   useEffect(() => {

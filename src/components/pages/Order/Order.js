@@ -12,6 +12,7 @@ import RecipePicker from "../../RecipePicker/RecipePicker";
 
 function Order(props) {
   const history = useHistory();
+  const [isFormValid, setIsFormValid] = useState(true)
   const [fieldsData, setFieldsData] = useState({
     name: "",
     phone: "",
@@ -99,12 +100,17 @@ function Order(props) {
 
   useEffect(() => {
     const { id } = props.match.params;
-    setRecipeId(id)
-    
-    const selectedOrder = props.orders.find(order => order.id = id)
-    setFieldsData(selectedOrder)
-
+    if(id === "new"){
+      
+    } else {
+      
+    }
   }, []);
+
+  useEffect(() => {
+    const { description, category, family, price } = validationErrors;
+    setIsFormValid(!(description || category || family || price));
+  }, [validationErrors]);
 
   return (
     <div className={classes.container}>
